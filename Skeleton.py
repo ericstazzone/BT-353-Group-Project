@@ -7,6 +7,11 @@
 import pygame, sys
 from pygame.locals import *
 
+class Wall(object):
+    def __init__(self,pos):
+        walls.append(self)
+        self.rect=pygame.Rect(pos[0],pos[1],50,50)
+
 class Player():
 ## Would utilize this class for player movement and all things related to the player
     def __init__(self):
@@ -29,7 +34,7 @@ class Player():
         if self.index >= len(self.images):
             self.index = 0
         self.image = self.images[self.index]
-        self.image = pygame.transform.scale(self.image, (75, 75))
+        self.image = pygame.transform.scale(self.image, (40, 40))
         
     ## Player Movement
     def movex(self, n):
@@ -44,20 +49,60 @@ class Player():
 ##sprite movement test below
 pygame.init()
 clock = pygame.time.Clock()
-size = 800,600 
+size = 1000,750
 screen = pygame.display.set_mode(size,0,32) #DISPLAY=pygame.display.set_mode((800,600)) #creates the display. width of 800 and length of 600
 pygame.display.set_caption('The Impossible Game')
 player = Player()
+
+
+#making the boundaries
+walls=[]
+level = [
+"WWWWWWWWWWWWWWWWWWWW",
+"W                  W",
+"W         WWWWWW   W",
+"W   WWWW       W   W",
+"W   W        WWWW  W",
+"W WWW  WWWW        W",
+"W   W     W W      W",
+"W   W     W   WWW WW",
+"W   WWW WWW   W W  W",
+"W     W   W   W W  W",
+"WWW   W   WWWWW W  W",
+"W W      WW        W",
+"W W   WWWW   WWW   W",
+"W     W    E   W   W",
+"WWWWWWWWWWWWWWWWWWWW",
+]
+
+
+#looping through the string above to get it set up for drawing. Creating rectangle objects
+x = y = 0
+for row in level:
+    for col in row:
+        if col == "W":
+            Wall((x, y))
+        if col == "E":
+            end_rect = pygame.Rect(x, y, 50, 50)
+        x +=50
+    y += 50
+    x = 0
+
+
+
+
+
+
 loop = True
 #running the game
 while loop:
     #making the background white
     screen.fill(Color("white"))
-    #making the boundaries
-    pygame.draw.rect(screen,Color("red"),(0,0,75,75))   #start place
-    pygame.draw.rect(screen,Color("green"),(725,525,75,75))   #finish 
-    pygame.draw.rect(screen,Color("blue"),(75,0,30,300))
-    pygame.draw.rect(screen,Color("blue"),(0,400,250,30))
+  
+    #looping through the walls created to actually creat the rectangles
+    for wall in walls:
+        pygame.draw.rect(screen, Color("blue"), wall.rect)
+    pygame.draw.rect(screen, (255, 0, 0), end_rect)
     player.draw(screen)
     ##event control, move to player class
     player.update()
