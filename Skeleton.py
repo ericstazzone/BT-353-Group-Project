@@ -10,11 +10,26 @@ from pygame.locals import *
 class Player():
 ## Would utilize this class for player movement and all things related to the player
     def __init__(self):
-        image = pygame.image.load('square1.png')
-        image = pygame.transform.scale(image, (50, 50))
-        self.image = image
+        self.images = []
+        image1 = pygame.image.load('square1.png')
+        image2 = pygame.image.load('square2.png')
+        image3 = pygame.image.load('square3.png')
+        self.images.append(image1)
+        self.images.append(image2)
+        self.images.append(image3)
+        self.index = 0
+        self.image = self.images[self.index]
+        #self.image = pygame.transform.scale(image, (50, 50))
+        #image = pygame.image.load('square1.png')
+        #self.image = image
         self.x = 0
         self.y = 0
+    def update(self):
+        self.index += 1
+        if self.index >= len(self.images):
+            self.index = 0
+        self.image = self.images[self.index]
+        self.image = pygame.transform.scale(self.image, (75, 75))
         
     ## Player Movement
     def movex(self, n):
@@ -45,19 +60,20 @@ while loop:
     pygame.draw.rect(screen,Color("blue"),(0,400,250,30))
     player.draw(screen)
     ##event control, move to player class
+    player.update()
     for event in pygame.event.get():
         if event.type==QUIT:
             loop = False
     key = pygame.key.get_pressed()
     if key[pygame.K_w] or key[pygame.K_UP]:
-        player.movey(-5)
+        player.movey(-10)
     elif key[pygame.K_a] or key[pygame.K_LEFT]: 
-        player.movex(-5)
+        player.movex(-10)
     if key[pygame.K_s] or key[pygame.K_DOWN]: 
-        player.movey(5)
+        player.movey(10)
     elif key[pygame.K_d] or key[pygame.K_RIGHT]: 
-        player.movex(5)
+        player.movex(10)
     #refresh display
     pygame.display.flip()
-    clock.tick(120)
+    clock.tick(30)
 pygame.quit()
