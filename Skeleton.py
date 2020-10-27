@@ -7,45 +7,31 @@
 import pygame, sys
 from pygame.locals import *
 
-
-    
-
- 
-
-    
-
-  
 class Player:
 ## Would utilize this class for player movement and all things related to the player
     pass
 
 ##sprite movement test below
- 
 pygame.init()
 clock = pygame.time.Clock()
 size = 800,600 
-screen = pygame.display.set_mode(size,0,32)
+screen = pygame.display.set_mode(size,0,32) #DISPLAY=pygame.display.set_mode((800,600)) #creates the display. width of 800 and length of 600
 pygame.display.set_caption('The Impossible Game')
 x, y = 0,0
-#DISPLAY=pygame.display.set_mode((800,600)) #creates the display. width of 800 and length of 600
-
- 
-
- 
 sprite = pygame.image.load('square1.png')
-sprite = pygame.transform.scale(sprite, (100,100))
+sprite = pygame.transform.scale(sprite, (50,50))
 loop = True
+#running the game
 while loop:
     #making the background white
     screen.fill(Color("white"))
-
- #making the boundaries
+    #making the boundaries
     pygame.draw.rect(screen,Color("red"),(0,0,75,75))   #start place
     pygame.draw.rect(screen,Color("green"),(725,525,75,75))   #finish 
     pygame.draw.rect(screen,Color("blue"),(75,0,30,300))
     pygame.draw.rect(screen,Color("blue"),(0,400,250,30))
     screen.blit(sprite,(x,y))
- 
+    ##event control, move to player class
     for event in pygame.event.get():
         if event.type==QUIT:
             loop = False
@@ -58,8 +44,7 @@ while loop:
         y += 5
     elif key[pygame.K_d] or key[pygame.K_RIGHT]: 
         x += 5
-
-    
+    #refresh display
     pygame.display.flip()
     clock.tick(120)
 pygame.quit()
