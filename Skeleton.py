@@ -61,13 +61,13 @@ while loop:
         if event.type==QUIT:
             loop = False
     key = pygame.key.get_pressed()
-    if key[pygame.K_w]:
-        y -= 5
-    elif key[pygame.K_a]: 
-        x -= 5
-    if key[pygame.K_s]: 
+    if key[pygame.K_w] or key[pygame.K_UP]:
         y += 5
-    elif key[pygame.K_d]: 
+    elif key[pygame.K_a] or key[pygame.K_LEFT]: 
+        x -= 5
+    if key[pygame.K_s] or key[pygame.K_DOWN]: 
+        y -= 5
+    elif key[pygame.K_d] or key[pygame.K_RIGHT]: 
         x += 5
 
     
