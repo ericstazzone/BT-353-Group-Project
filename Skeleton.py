@@ -27,8 +27,8 @@ class Player():
         #self.image = pygame.transform.scale(image, (50, 50))
         #image = pygame.image.load('square1.png')
         #self.image = image
-        self.x = 0
-        self.y = 0
+        self.x = 50
+        self.y = 50
     def update(self):
         self.index += 1
         if self.index >= len(self.images):
