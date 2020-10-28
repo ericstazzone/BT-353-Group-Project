@@ -12,6 +12,77 @@ class Wall(object):
         walls.append(self)
         self.rect=pygame.Rect(pos[0],pos[1],50,50)
 
+## Obstacles
+class Obstacles:
+## Would utilize this class for player movement and all things related to the player
+    ## Obstacle Class
+        
+    ## Circle Obstacles
+    circle1 = pygame.image.load('circle obstacle.png') 
+    circle1 = pygame.transform.scale(circle1, (50,50))
+    circle2 = pygame.image.load('circle obstacle.png')
+    circle2 = pygame.transform.scale(circle2, (50,50))
+    circle3 = pygame.image.load('circle obstacle.png')
+    circle3 = pygame.transform.scale(circle3, (50,50))
+    circle4 = pygame.image.load('circle obstacle.png')
+    circle4 = pygame.transform.scale(circle4, (50,50))
+    coors1 = [600, 50]
+    coors2 = [400, 50]
+    coors3 = [650, 300]
+    coors4 = [50, 250]
+    movespeed = 2
+    check1 = 0
+    check2 = 0
+    check3 = 0
+    check4 = 0
+
+    def movement1(self):
+        if self.check1 == 1: ## moving right
+            self.coors1[0] += self.movespeed
+        else: ## moving left
+            self.coors1[0] -= self.movespeed
+        if self.coors1[0] > 900: ## how far right the sprite goes
+            self.check1 = 0
+        if self.coors1[0] < 600: ## how far left the sprite goes
+            self.check1 = 1
+
+    def movement2(self):
+        if self.check2 == 1: ## moving right
+            self.coors2[1] += self.movespeed
+        else: ## moving left
+            self.coors2[1] -= self.movespeed
+        if self.coors2[1] > 200: ## how far right the sprite goes
+            self.check2 = 0
+        if self.coors2[1] < 50: ## how far left the sprite goes
+            self.check2 = 1
+
+    def movement3(self):
+        if self.check3 == 1: ## moving right
+            self.coors3[0] += self.movespeed
+        else: ## moving left
+            self.coors3[0] -= self.movespeed
+        if self.coors3[0] > 900: ## how far right the sprite goes
+            self.check3 = 0
+        if self.coors3[0] < 650: ## how far left the sprite goes
+            self.check3 = 1
+
+    def movement4(self):
+        if self.check4 == 1: ## moving right
+            self.coors4[1] += self.movespeed
+        else: ## moving left
+            self.coors4[1] -= self.movespeed
+        if self.coors4[1] > 450: ## how far right the sprite goes
+            self.check4 = 0
+        if self.coors4[1] < 250: ## how far left the sprite goes
+            self.check4 = 1    
+
+    def draw(self):
+        screen.blit(self.circle1, self.coors1)
+        screen.blit(self.circle2, self.coors2)
+        screen.blit(self.circle3, self.coors3)
+        screen.blit(self.circle4, self.coors4)
+
+
 class Player():
 ## Would utilize this class for player movement and all things related to the player
     def __init__(self):
@@ -91,19 +162,27 @@ for row in level:
 
 
 
-
+obstacles = Obstacles()
 
 loop = True
 #running the game
 while loop:
     #making the background white
     screen.fill(Color("white"))
-  
+
     #looping through the walls created to actually creat the rectangles
     for wall in walls:
         pygame.draw.rect(screen, Color("blue"), wall.rect)
     pygame.draw.rect(screen, (255, 0, 0), end_rect)
     player.draw(screen)
+    
+    ##obstacles
+    obstacles.movement1()
+    obstacles.movement2()
+    obstacles.movement3()
+    obstacles.movement4()
+    obstacles.draw()
+
     ##event control, move to player class
     player.update()
     for event in pygame.event.get():
