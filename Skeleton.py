@@ -109,12 +109,18 @@ class Player():
         
     ## Player Movement
     def movex(self, n):
-        self.x += n
+        if not self.wallCollide(n, 0):
+            self.x += n
     def movey(self, n):
-        self.y += n
+        if not self.wallCollide(0, n):
+            self.y += n
 
-    def draw(self, screen):
+    def draw(self):
         screen.blit(self.image, (self.x, self.y))
+
+    def wallCollide(self, xsteps, ysteps):
+        r = Rect(self.x+xsteps, self.y+ysteps, 40, 40)
+        return r.collidelist(walls) != -1
     
 
 ##sprite movement test below
@@ -174,7 +180,7 @@ while loop:
     for wall in walls:
         pygame.draw.rect(screen, Color("blue"), wall.rect)
     pygame.draw.rect(screen, (255, 0, 0), end_rect)
-    player.draw(screen)
+    player.draw()
     
     ##obstacles
     obstacles.movement1()
