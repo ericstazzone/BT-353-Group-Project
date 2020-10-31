@@ -26,6 +26,7 @@ class Obstacles:
     circle3 = pygame.transform.scale(circle3, (50,50))
     circle4 = pygame.image.load('circle obstacle.png')
     circle4 = pygame.transform.scale(circle4, (50,50))
+ 
     coors1 = [600, 50]
     coors2 = [400, 50]
     coors3 = [650, 300]
@@ -35,6 +36,11 @@ class Obstacles:
     check2 = 0
     check3 = 0
     check4 = 0
+    circle1rect = Rect(coors1[0], coors1[1], 10, 10)
+    circle2rect = Rect(coors2[0], coors2[1], 10, 10)
+    circle3rect = Rect(coors3[0], coors3[1], 10, 10)
+    circle4rect = Rect(coors4[0], coors4[1], 10, 10)
+    circlesrect=[circle1rect,circle2rect,circle3rect,circle4rect]
 
     def movement1(self):
         if self.check1 == 1: ## moving right
@@ -82,6 +88,7 @@ class Obstacles:
         screen.blit(self.circle3, self.coors3)
         screen.blit(self.circle4, self.coors4)
 
+    
 
 class Player():
 ## Would utilize this class for player movement and all things related to the player
@@ -95,6 +102,7 @@ class Player():
         self.images.append(image3)
         self.index = 0
         self.image = self.images[self.index]
+        self.image_b=self.image.get_rect()
         #self.image = pygame.transform.scale(image, (50, 50))
         #image = pygame.image.load('square1.png')
         #self.image = image
@@ -114,13 +122,21 @@ class Player():
     def movey(self, n):
         if not self.wallCollide(0, n):
             self.y += n
-
     def draw(self):
         screen.blit(self.image, (self.x, self.y))
 
     def wallCollide(self, xsteps, ysteps):
         r = Rect(self.x+xsteps, self.y+ysteps, 40, 40)
         return r.collidelist(walls) != -1
+
+    def obstacleCollide(self,rectlist):
+        r = Rect(self.x, self.y,25, 25)
+        if r.collidelist(rectlist) !=-1:
+            sys.exit()
+        
+       
+
+    
     
 
 ##sprite movement test below
@@ -188,6 +204,14 @@ while loop:
     obstacles.movement3()
     obstacles.movement4()
     obstacles.draw()
+    circle1rect = Rect(obstacles.coors1[0], obstacles.coors1[1], 15, 15)
+    circle2rect = Rect(obstacles.coors2[0], obstacles.coors2[1], 15, 15)
+    circle3rect = Rect(obstacles.coors3[0], obstacles.coors3[1], 15, 15)
+    circle4rect = Rect(obstacles.coors4[0], obstacles.coors4[1], 15, 15)
+    circlesrect=[circle1rect,circle2rect,circle3rect,circle4rect]
+    player.obstacleCollide(circlesrect)
+
+
 
     ##event control, move to player class
     player.update()
