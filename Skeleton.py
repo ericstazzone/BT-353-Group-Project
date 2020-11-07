@@ -106,8 +106,13 @@ class Player():
         #self.image = pygame.transform.scale(image, (50, 50))
         #image = pygame.image.load('square1.png')
         #self.image = image
+        self.resetPosition()
+        self.deaths = 0
+
+    def resetPosition(self):
         self.x = 50
         self.y = 50
+
     def update(self):
         self.index += 1
         if self.index >= len(self.images):
@@ -132,7 +137,12 @@ class Player():
     def obstacleCollide(self,rectlist):
         r = Rect(self.x, self.y,25, 25)
         if r.collidelist(rectlist) !=-1:
-            sys.exit()
+            self.kill()
+    
+    def kill(self):
+        self.deaths += 1
+        self.resetPosition()
+        print(self.deaths)
         
        
 
