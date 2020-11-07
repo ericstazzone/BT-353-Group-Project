@@ -141,9 +141,7 @@ class Player():
     
     def kill(self):
         self.deaths += 1
-        self.resetPosition()
-        print(self.deaths)
-        
+        self.resetPosition()        
        
 
     
