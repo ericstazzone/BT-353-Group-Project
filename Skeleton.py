@@ -16,15 +16,15 @@ class Wall(object):
 class Obstacles:
 ## Would utilize this class for player movement and all things related to the player
     ## Obstacle Class
-        
+
     ## Circle Obstacles
-    circle1 = pygame.image.load('circle obstacle.png') 
+    circle1 = pygame.image.load('circle1.png') 
     circle1 = pygame.transform.scale(circle1, (50,50))
-    circle2 = pygame.image.load('circle obstacle.png')
+    circle2 = pygame.image.load('circle1.png')
     circle2 = pygame.transform.scale(circle2, (50,50))
-    circle3 = pygame.image.load('circle obstacle.png')
+    circle3 = pygame.image.load('circle1.png')
     circle3 = pygame.transform.scale(circle3, (50,50))
-    circle4 = pygame.image.load('circle obstacle.png')
+    circle4 = pygame.image.load('circle1.png')
     circle4 = pygame.transform.scale(circle4, (50,50))
  
     coors1 = [600, 50]
@@ -41,6 +41,8 @@ class Obstacles:
     circle3rect = Rect(coors3[0], coors3[1], 10, 10)
     circle4rect = Rect(coors4[0], coors4[1], 10, 10)
     circlesrect=[circle1rect,circle2rect,circle3rect,circle4rect]
+
+    ## Inputs are (coors # of the enemey, 0 for horizontal and y for vertical, minimum coordinate value, maximum coordinate value, check value)
 
     def movement1(self):
         if self.check1 == 1: ## moving right
@@ -106,8 +108,13 @@ class Player():
         #self.image = pygame.transform.scale(image, (50, 50))
         #image = pygame.image.load('square1.png')
         #self.image = image
+        self.resetPosition()
+        self.deaths = 0
+
+    def resetPosition(self):
         self.x = 50
         self.y = 50
+
     def update(self):
         self.index += 1
         if self.index >= len(self.images):
@@ -132,8 +139,11 @@ class Player():
     def obstacleCollide(self,rectlist):
         r = Rect(self.x, self.y,25, 25)
         if r.collidelist(rectlist) !=-1:
-            sys.exit()
-        
+            self.kill()
+    
+    def kill(self):
+        self.deaths += 1
+        self.resetPosition()        
        
 
     
