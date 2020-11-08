@@ -9,18 +9,16 @@ from pygame.locals import *
 
 class Wall(object):
     def __init__(self,pos):
-        walls.append(self)
         self.rect=pygame.Rect(pos[0],pos[1],50,50)
-
-
- class Key():
+class Key():
     def __init__(self,pos):
+        pass
         #import image here
         # set the x and y 
         #update function
-    
 class Traps():
     def __init__(self,pos):
+        pass
         #do the same thing as Player and Key.
         #make sure to set the x and y 
         #update function
@@ -83,13 +81,11 @@ screen = pygame.display.set_mode(size,0,32) #DISPLAY=pygame.display.set_mode((80
 pygame.display.set_caption('The Impossible Game')
 
 #setting the level to 1
-currentbox=1
+currentbox=0
 
 
 #making the boundaries
-walls=[]
-if currentbox==1:
-    level = [
+boxes = [[
     "WWWWWWWWWWWWWWWW WWW",
     "W                  W",
     "W         WWWWWW   W",
@@ -105,27 +101,29 @@ if currentbox==1:
     "W W   WWWW   WWW   W",
     "W P   W    E   W    ",
     "WWWWWWWWWWWWWWWWWWWW",
-    ]
+    ]]
 
 
     #looping through the string above to get it set up for drawing. Creating rectangle objects
+def load_box(box):
+    walls=[]
     x = y = 0
-    for row in level:
+    for row in boxes[box]:
         for col in row:
             if col == "W":
-                Wall((x, y))
+                walls.append(Wall((x, y)))
             if col=="P":
                 player=Player((x,y))
-            if col == "E":
-                end_rect = pygame.Rect(x, y, 50, 50)
             x +=50
         y += 50
         x = 0
+    return walls,player
 
 
 
 
 
+walls,player=load_box(currentbox)
 
 loop = True
 #running the game
@@ -136,7 +134,6 @@ while loop:
     #looping through the walls created to actually creat the rectangles
     for wall in walls:
         pygame.draw.rect(screen, Color("blue"), wall.rect)
-    pygame.draw.rect(screen, (255, 0, 0), end_rect)
 
 
     player.draw()
