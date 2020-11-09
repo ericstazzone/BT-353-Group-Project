@@ -12,30 +12,45 @@ class Wall(object):
         walls.append(self)
         self.rect=pygame.Rect(pos[0],pos[1],50,50)
 
+class Lights:
+    blackout = pygame.image.load('blackout.png') 
+    blackout = pygame.transform.scale(blackout, (500,390))
+    key = pygame.image.load('key1.png')
+    key = pygame.transform.scale(key, (50, 50))
+
+    keycoors = [245, 195]
+    lightscoors = [325, 185]
+    keys = 0
+
+    key1rect = Rect(keycoors[0], keycoors[1], 30, 30)
+    keysrect = [key1rect]
+
+    def lightsToggle(self):
+        if self.keys == 0:
+            screen.blit(self.blackout, self.lightscoors)
+            screen.blit(self.key, self.keycoors)
+
+    def obtainKey(self, playerx, playery):
+        temp = Rect(playerx, playery, 20, 20)
+        if temp.collidelist(self.keysrect) != -1:
+            self.keys += 1
+
+
 ## Obstacles
-class Obstacles:
+class Obstacles():
 ## Would utilize this class for player movement and all things related to the player
     ## Obstacle Class
 
-    ## Circle Obstacles
-    circle1 = pygame.image.load('circle1.png') 
-    circle1 = pygame.transform.scale(circle1, (50,50))
-    circle2 = pygame.image.load('circle1.png')
-    circle2 = pygame.transform.scale(circle2, (50,50))
-    circle3 = pygame.image.load('circle1.png')
-    circle3 = pygame.transform.scale(circle3, (50,50))
-    circle4 = pygame.image.load('circle1.png')
-    circle4 = pygame.transform.scale(circle4, (50,50))
+    ## Enemies
+    enemy = pygame.image.load('circle1.png') 
+    enemy = pygame.transform.scale(enemy, (50,50))
  
     coors1 = [600, 50]
     coors2 = [400, 50]
     coors3 = [650, 300]
     coors4 = [50, 250]
     movespeed = 2
-    check1 = 0
-    check2 = 0
-    check3 = 0
-    check4 = 0
+    check = [0, 0, 0, 0]
     circle1rect = Rect(coors1[0], coors1[1], 10, 10)
     circle2rect = Rect(coors2[0], coors2[1], 10, 10)
     circle3rect = Rect(coors3[0], coors3[1], 10, 10)
@@ -45,50 +60,50 @@ class Obstacles:
     ## Inputs are (coors # of the enemey, 0 for horizontal and y for vertical, minimum coordinate value, maximum coordinate value, check value)
 
     def movement1(self):
-        if self.check1 == 1: ## moving right
+        if self.check[0] == 1: ## moving right
             self.coors1[0] += self.movespeed
         else: ## moving left
             self.coors1[0] -= self.movespeed
         if self.coors1[0] > 900: ## how far right the sprite goes
-            self.check1 = 0
+            self.check[0] = 0
         if self.coors1[0] < 600: ## how far left the sprite goes
-            self.check1 = 1
+            self.check[0] = 1
 
     def movement2(self):
-        if self.check2 == 1: ## moving right
+        if self.check[1] == 1: ## moving right
             self.coors2[1] += self.movespeed
         else: ## moving left
             self.coors2[1] -= self.movespeed
         if self.coors2[1] > 200: ## how far right the sprite goes
-            self.check2 = 0
+            self.check[1] = 0
         if self.coors2[1] < 50: ## how far left the sprite goes
-            self.check2 = 1
+            self.check[1] = 1
 
     def movement3(self):
-        if self.check3 == 1: ## moving right
+        if self.check[2] == 1: ## moving right
             self.coors3[0] += self.movespeed
         else: ## moving left
             self.coors3[0] -= self.movespeed
         if self.coors3[0] > 900: ## how far right the sprite goes
-            self.check3 = 0
+            self.check[2] = 0
         if self.coors3[0] < 650: ## how far left the sprite goes
-            self.check3 = 1
+            self.check[2] = 1
 
     def movement4(self):
-        if self.check4 == 1: ## moving right
+        if self.check[3] == 1: ## moving right
             self.coors4[1] += self.movespeed
         else: ## moving left
             self.coors4[1] -= self.movespeed
         if self.coors4[1] > 450: ## how far right the sprite goes
-            self.check4 = 0
+            self.check[3] = 0
         if self.coors4[1] < 250: ## how far left the sprite goes
-            self.check4 = 1    
+            self.check[3] = 1
 
     def draw(self):
-        screen.blit(self.circle1, self.coors1)
-        screen.blit(self.circle2, self.coors2)
-        screen.blit(self.circle3, self.coors3)
-        screen.blit(self.circle4, self.coors4)
+        screen.blit(self.enemy, self.coors1)
+        screen.blit(self.enemy, self.coors2)
+        screen.blit(self.enemy, self.coors3)
+        screen.blit(self.enemy, self.coors4)
 
     
 
@@ -195,6 +210,7 @@ for row in level:
 
 
 obstacles = Obstacles()
+lights = Lights()
 
 loop = True
 #running the game
@@ -221,7 +237,9 @@ while loop:
     circlesrect=[circle1rect,circle2rect,circle3rect,circle4rect]
     player.obstacleCollide(circlesrect)
 
-
+    ##lights
+    lights.lightsToggle()
+    lights.obtainKey(player.x, player.y)
 
     ##event control, move to player class
     player.update()
