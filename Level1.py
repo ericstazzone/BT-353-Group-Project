@@ -36,17 +36,24 @@ class Player():
         self.images.append(image3)
         self.index = 0
         self.image = self.images[self.index]
-        self.image_b=self.image.get_rect()
+        #self.image_b=self.image.get_rect()
         #self.image = pygame.transform.scale(image, (50, 50))
         #image = pygame.image.load('square1.png')
         #self.image = image
         self.x = pos[0]
         self.y = pos[1]
+        self.counter = 0
+
+
     def update(self):
         self.index += 1
-        if self.index >= len(self.images):
+        if self.index >= 4:
+            self.counter += 1
             self.index = 0
-        self.image = self.images[self.index]
+        if self.counter >= len(self.images):
+            self.index = 0
+            self.counter = 0
+        self.image = self.images[self.counter]
         self.image = pygame.transform.scale(self.image, (40, 40))
         
     ## Player Movement
@@ -67,8 +74,7 @@ class Player():
         r = Rect(self.x, self.y,25, 25)
         if r.collidelist(rectlist) !=-1:
             sys.exit()
-        
-       
+             
 
     
     
@@ -99,8 +105,26 @@ boxes = [[
     "WWW   W   WWWWW W  W",
     "W W      WW        W",
     "W W   WWWW   WWW   W",
-    "W P   W    E   W    ",
+    "W P   W        W    ",
     "WWWWWWWWWWWWWWWWWWWW",
+    ],
+    [
+    "WWWWWWWWWWWWWWWW WWW",
+    "W                  W",
+    "W  WWWWWWwwwwwwww  W",
+    "W   WWWW      wW   W",
+    "W   W  w      WWWW W",
+    "W WWW  WWWW   www wW",
+    "W         W W  w   W",
+    "W   W     W   WWWwWW",
+    "W   WWW WWW   W W  W",
+    "W     W   W   W W  W",
+    "WWW   W   WWWWW W  W",
+    "W W      WW        W",
+    "W W   WWWW   WWW   W",
+    "W     W        W   ",
+    "WWWWWWWWWWWWWWWWPWWW",
+
     ]]
 
 
@@ -132,6 +156,20 @@ while loop:
     screen.fill(Color("white"))
 
     #looping through the walls created to actually creat the rectangles
+
+    #for the y coordinate when it hits the top of the opening, it transports to the box #1
+    if currentbox==0 and player.x>=800 and player.x<=850 and player.y==0:
+        currentbox=1
+        walls,player=load_box(currentbox)
+    
+    #considering the event when player decides go back to box #0
+    #doesn't work if I want to go back and forth
+    if currentbox==1 and player.x>=800 and player.x<=850 and player.y==750:
+        currentbox=0
+        walls,player=load_box(currentbox)
+        player.x=800
+        player.y=25
+    
     for wall in walls:
         pygame.draw.rect(screen, Color("blue"), wall.rect)
 
