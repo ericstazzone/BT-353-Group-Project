@@ -59,6 +59,13 @@ class Obstacles():
 
     ## Inputs are (coors # of the enemey, 0 for horizontal and y for vertical, minimum coordinate value, maximum coordinate value, check value)
 
+    def reset(self):
+        self.coors1 = [600, 50]
+        self.coors2 = [400, 50]
+        self.coors3 = [650, 300]
+        self.coors4 = [50, 250]
+        self.check = [0, 0, 0, 0]
+
     def movement1(self):
         if self.check[0] == 1: ## moving right
             self.coors1[0] += self.movespeed
@@ -159,7 +166,8 @@ class Player():
     def obstacleCollide(self,rectlist):
         r = Rect(self.x, self.y,25, 25)
         if r.collidelist(rectlist) !=-1:
-            self.kill()
+            return True
+        return False
     
     def kill(self):
         self.deaths += 1
@@ -218,9 +226,18 @@ for row in level:
 obstacles = Obstacles()
 lights = Lights()
 
+died = False
+
 loop = True
 #running the game
 while loop:
+    #Resets map if dead
+    if died:
+        obstacles.reset()
+        lights = Lights()
+        player.kill()
+        died = False
+
     #making the background white
     screen.fill(Color("white"))
 
@@ -242,7 +259,7 @@ while loop:
     circle3rect = Rect(obstacles.coors3[0], obstacles.coors3[1], 15, 15)
     circle4rect = Rect(obstacles.coors4[0], obstacles.coors4[1], 15, 15)
     circlesrect=[circle1rect,circle2rect,circle3rect,circle4rect]
-    player.obstacleCollide(circlesrect)
+    died = player.obstacleCollide(circlesrect)
 
     ##lights
     lights.lightsToggle()
