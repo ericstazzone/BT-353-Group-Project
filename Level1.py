@@ -168,7 +168,7 @@ while loop:
         currentbox=0
         walls,player=load_box(currentbox)
         player.x=800
-        player.y=25
+        player.y=30
     
     for wall in walls:
         pygame.draw.rect(screen, Color("blue"), wall.rect)
