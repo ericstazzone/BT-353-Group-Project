@@ -28,9 +28,9 @@ class Player():
 ## Would utilize this class for player movement and all things related to the player
     def __init__(self,pos):
         self.images = []
-        image1 = pygame.image.load('square1.png')
-        image2 = pygame.image.load('square2.png')
-        image3 = pygame.image.load('square3.png')
+        image1 = pygame.image.load('images/square1.png')
+        image2 = pygame.image.load('images/square2.png')
+        image3 = pygame.image.load('images/square3.png')
         self.images.append(image1)
         self.images.append(image2)
         self.images.append(image3)
