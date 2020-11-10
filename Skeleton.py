@@ -13,9 +13,9 @@ class Wall(object):
         self.rect=pygame.Rect(pos[0],pos[1],50,50)
 
 class Lights:
-    blackout = pygame.image.load('blackout.png') 
+    blackout = pygame.image.load('images/blackout.png') 
     blackout = pygame.transform.scale(blackout, (500,390))
-    key = pygame.image.load('key1.png')
+    key = pygame.image.load('images/key1.png')
     key = pygame.transform.scale(key, (50, 50))
 
     keycoors = [245, 195]
@@ -42,7 +42,7 @@ class Obstacles():
     ## Obstacle Class
 
     ## Enemies
-    enemy = pygame.image.load('circle1.png') 
+    enemy = pygame.image.load('images/circle1.png') 
     enemy = pygame.transform.scale(enemy, (50,50))
  
     coors1 = [600, 50]
@@ -118,9 +118,9 @@ class Player():
 ## Would utilize this class for player movement and all things related to the player
     def __init__(self):
         self.images = []
-        image1 = pygame.image.load('square1.png')
-        image2 = pygame.image.load('square2.png')
-        image3 = pygame.image.load('square3.png')
+        image1 = pygame.image.load('images/square1.png')
+        image2 = pygame.image.load('images/square2.png')
+        image3 = pygame.image.load('images/square3.png')
         self.images.append(image1)
         self.images.append(image2)
         self.images.append(image3)
