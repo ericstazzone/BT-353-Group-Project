@@ -105,7 +105,7 @@ boxes = [[                                                          #making the 
     "W WWWWWWWWWW  W  WWW",
     "W                WWW",
     "WWWWWWWWWWWWWWWWPWWW",
-    ]
+    ],
     [
     "WWWWWWWWWWWWWWWWWWWW",
     "WWWWWWWW         WWW",
