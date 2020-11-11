@@ -105,6 +105,23 @@ boxes = [[                                                          #making the 
     "W WWWWWWWWWW  W  WWW",
     "W                WWW",
     "WWWWWWWWWWWWWWWWPWWW",
+    ]
+    [
+    "WWWWWWWWWWWWWWWWWWWW",
+    "WWWWWWWW         WWW",
+    "WWWWWWWW         WWW",
+    "WWWWWWWW         WWW",
+    "WWW              WWW",
+    "WWW WWWW         WWW",
+    "WWW WWWW         WWW",
+    "WWW    W         WWW",
+    "WWWWWWWW         WWW",
+    "WWW              WWW",
+    "WWW WWWWW       WWWW",
+    "WW   WWWWW     WWWWW",
+    "W     WWWWW   WWWWWW",
+    "WW   WWWWWWW WWWWWWW",
+    "WWWPWWWWWWWWWWWWWWWW",
     ]]
 
 def load_box(box):                                                  #looping through the string above to get it set up for drawing. Creating rectangle objects
