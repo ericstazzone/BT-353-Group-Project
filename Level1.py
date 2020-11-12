@@ -6,11 +6,37 @@ class Wall(object):
         self.rect=pygame.Rect(pos[0],pos[1],50,50)
 
 class Key():
-    def __init__(self,pos):
-        pass
-                                                                    #import image here
-                                                                    # set the x and y 
-                                                                    #update function
+    ## Images
+    blackout = pygame.image.load('images/blackout.png') 
+    blackout = pygame.transform.scale(blackout, (500,390))
+    key = pygame.image.load('images/key1.png')
+    key = pygame.transform.scale(key, (50, 50))
+        
+    ## Key Variables
+    keyscollected = 0
+    keys = [False, False]
+    keycoors0 = [350, 295]
+    keycoors1 = [900, 400]
+    keycoors = [keycoors0, keycoors1]
+    key0rect = Rect(keycoors[0][0], keycoors[0][1], 50, 50)
+    key1rect = Rect(keycoors[1][0], keycoors[1][1], 50, 50)
+    keysrect = [key0rect, key1rect]
+                                
+    def toggleBox0(self):
+        if not self.keys[0]:
+            screen.blit(self.key, self.keycoors[0])
+        
+    def toggleBox1(self):
+        if not self.keys[1]:
+            screen.blit(self.key, self.keycoors[1])
+
+    def obtainKey(self, playerx, playery):
+        temp = Rect(playerx, playery, 20, 20)
+        if temp.colliderect(self.keysrect[0]) == 1:
+            self.keys[0] = True
+        if temp.colliderect(self.keysrect[1]) == 1:
+            self.keys[1] = True
+
 
 class Traps():
     def __init__(self,pos):
@@ -139,6 +165,7 @@ def load_box(box):                                                  #looping thr
     return walls,player
 
 walls,player=load_box(currentbox)
+keys = Key()
 
 loop = True                                                         #running the game
 while loop:
@@ -157,8 +184,16 @@ while loop:
     for wall in walls:                                              #looping through the walls created to actually creat the rectangles
         pygame.draw.rect(screen, Color("blue"), wall.rect)
 
+    if currentbox == 0:         ## generating enemies and keys for box 0
+        keys.toggleBox0()
+
+    if currentbox == 1:         ## generating enemies and keys for box 1
+        keys.toggleBox1()
+
     player.draw()
     player.update()
+
+    keys.obtainKey(player.x, player.y)
 
     for event in pygame.event.get():
         if event.type==QUIT:
