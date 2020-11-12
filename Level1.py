@@ -30,11 +30,11 @@ class Key():
         if not self.keys[1]:
             screen.blit(self.key, self.keycoors[1])
 
-    def obtainKey(self, playerx, playery):
+    def obtainKey(self, playerx, playery, currentbox):
         temp = Rect(playerx, playery, 20, 20)
-        if temp.colliderect(self.keysrect[0]) == 1:
+        if temp.colliderect(self.keysrect[0]) == 1 and currentbox == 0:
             self.keys[0] = True
-        if temp.colliderect(self.keysrect[1]) == 1:
+        if temp.colliderect(self.keysrect[1]) == 1 and currentbox == 1:
             self.keys[1] = True
 
 
@@ -232,7 +232,7 @@ while loop:
     player.draw()
     player.update()
 
-    keys.obtainKey(player.x, player.y)
+    keys.obtainKey(player.x, player.y, currentbox)
 
     for event in pygame.event.get():
         if event.type==QUIT:
