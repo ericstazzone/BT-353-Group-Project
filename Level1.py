@@ -18,8 +18,8 @@ class Key():
     keycoors0 = [350, 295]
     keycoors1 = [900, 400]
     keycoors = [keycoors0, keycoors1]
-    key0rect = Rect(keycoors[0][0], keycoors[0][1], 30, 30)
-    key1rect = Rect(keycoors[1][0], keycoors[1][1], 30, 30)
+    key0rect = Rect(keycoors[0][0], keycoors[0][1], 50, 50)
+    key1rect = Rect(keycoors[1][0], keycoors[1][1], 50, 50)
     keysrect = [key0rect, key1rect]
                                 
     def toggleBox0(self):
