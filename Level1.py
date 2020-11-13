@@ -14,13 +14,17 @@ class Key():
         
     ## Key Variables
     keyscollected = 0
-    keys = [False, False]
+    keys = [False, False, False, False]
     keycoors0 = [350, 295]
     keycoors1 = [900, 400]
-    keycoors = [keycoors0, keycoors1]
+    keycoors2 = [300, 350]
+    keycoors3 = [480, 600]
+    keycoors = [keycoors0, keycoors1, keycoors2, keycoors3]
     key0rect = Rect(keycoors[0][0], keycoors[0][1], 50, 50)
     key1rect = Rect(keycoors[1][0], keycoors[1][1], 50, 50)
-    keysrect = [key0rect, key1rect]
+    key2rect = Rect(keycoors[2][0], keycoors[2][1], 50, 50)
+    key3rect = Rect(keycoors[3][0], keycoors[3][1], 50, 50)
+    keysrect = [key0rect, key1rect, key2rect, key3rect]
                                 
     def toggleBox0(self):
         if not self.keys[0]:
@@ -30,12 +34,24 @@ class Key():
         if not self.keys[1]:
             screen.blit(self.key, self.keycoors[1])
 
+    def toggleBox2(self):
+        if not self.keys[2]:
+            screen.blit(self.key, self.keycoors[2])
+
+    def toggleBox3(self):
+        if not self.keys[3]:
+            screen.blit(self.key, self.keycoors[3])
+
     def obtainKey(self, playerx, playery, currentbox):
         temp = Rect(playerx, playery, 20, 20)
         if temp.colliderect(self.keysrect[0]) == 1 and currentbox == 0:
             self.keys[0] = True
         if temp.colliderect(self.keysrect[1]) == 1 and currentbox == 1:
             self.keys[1] = True
+        if temp.colliderect(self.keysrect[2]) == 1 and currentbox == 2:
+            self.keys[2] = True
+        if temp.colliderect(self.keysrect[3]) == 1 and currentbox == 3:
+            self.keys[3] = True
 
 
 class Traps():
@@ -228,6 +244,12 @@ while loop:
 
     if currentbox == 1:         ## generating enemies and keys for box 1
         keys.toggleBox1()
+
+    if currentbox == 2:         ## generating enemies and keys for box 2
+        keys.toggleBox2()
+
+    if currentbox == 3:         ## generating enemies and keys for box 3
+        keys.toggleBox3()
 
     player.draw()
     player.update()
