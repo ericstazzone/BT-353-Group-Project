@@ -57,18 +57,18 @@ class Key():
 class Traps():
     def __init__(self,pos):
         self.images=[]
-        image1=pygame.image.load('trapdoor1.1.png')
-        image2=pygame.image.load('trapdoor1.2.png')
-        image3=pygame.image.load('trapdoor1.3.png')
-        image4=pygame.image.load('trapdoor2.1.png')
-        image5=pygame.image.load('trapdoor3.png')
-        image6=pygame.image.load('trapdoor4.1.png')
-        image7=pygame.image.load('trapdoor5.1.png')
-        image8=pygame.image.load('trapdoor5.2.png')
-        image9=pygame.image.load('trapdoor5.3.png')
-        image10=pygame.image.load('trapdoor4.2.png')
-        image11=pygame.image.load('trapdoor3.png')
-        image12=pygame.image.load('trapdoor2.2.png')
+        image1=pygame.image.load('images/trapdoor1.1.png')
+        image2=pygame.image.load('images/trapdoor1.2.png')
+        image3=pygame.image.load('images/trapdoor1.3.png')
+        image4=pygame.image.load('images/trapdoor2.1.png')
+        image5=pygame.image.load('images/trapdoor3.png')
+        image6=pygame.image.load('images/trapdoor4.1.png')
+        image7=pygame.image.load('images/trapdoor5.1.png')
+        image8=pygame.image.load('images/trapdoor5.2.png')
+        image9=pygame.image.load('images/trapdoor5.3.png')
+        image10=pygame.image.load('images/trapdoor4.2.png')
+        image11=pygame.image.load('images/trapdoor3.png')
+        image12=pygame.image.load('images/trapdoor2.2.png')
  
         self.images.append(image1)
         self.images.append(image2)
@@ -83,7 +83,7 @@ class Traps():
         self.images.append(image11)
         self.images.append(image12)
         self.index=0
-        self.image=self.images[index]
+        self.image=self.images[self.index]
         self.x=pos[0]
         self.y=pos[1]
         self.counter=0
@@ -97,7 +97,8 @@ class Traps():
             self.index = 0
             self.counter = 0
         self.image = self.images[self.counter]
-        self.image = pygame.transform.scale(self.image, (40, 40))
+        self.image = pygame.transform.scale(self.image, (50, 50))
+        
     
     def draw(self):
         screen.blit(self.image, (self.x, self.y))
@@ -160,11 +161,11 @@ pygame.display.set_caption('The Impossible Game')
 currentbox=0                                                        #setting the level to 1
 boxes = [[                                                          #making the boundaries
     "WWWWWWWWWWWWWWWW WWW",
-    "W T W W WWWWWWWW WWW",
+    "W   W W WWWWWWWW WWW",
     "W           WWWW WWW",
     "W   W W WWW WW     W",
     "WWW WWWWWWW WWWW WWW",
-    "W   WWW     WWW    W",
+    "W   WWW  T  WWW    W",
     "W WWWWW WWWWWWWWW WW",
     "W   WWWWWWWWWW     W",
     "W W         WWW WWWW",
@@ -241,7 +242,7 @@ def load_box(box):                                                  #looping thr
             x +=50
         y += 50
         x = 0
-    return walls,player
+    return walls,player,trap
 
 walls,player,trap=load_box(currentbox)
 keys = Key()
@@ -297,10 +298,14 @@ while loop:
     if currentbox == 3:         ## generating enemies and keys for box 3
         keys.toggleBox3()
 
+
+    trap.draw()
+    trap.update()
+
     player.draw()
     player.update()
 
-    trap.draw()
+
 
     keys.obtainKey(player.x, player.y, currentbox)
 
