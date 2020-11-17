@@ -7,11 +7,13 @@ class Wall(object):
 
 class Key():
     ## Images
-    blackout = pygame.image.load('images/blackout.png') 
-    blackout = pygame.transform.scale(blackout, (500,390))
+    blackout = pygame.image.load('images/blackout4.png') 
+    blackout = pygame.transform.scale(blackout, (1050,800))
     key = pygame.image.load('images/key1.png')
     key = pygame.transform.scale(key, (50, 50))
-        
+
+    blackoutcoors = [0, -10]
+    
     ## Key Variables
     keyscollected = 0
     keys = [False, False, False, False]
@@ -33,14 +35,20 @@ class Key():
     def toggleBox1(self):
         if not self.keys[1]:
             screen.blit(self.key, self.keycoors[1])
+        if not self.keys[0]:
+            screen.blit(self.blackout, self.blackoutcoors)
 
     def toggleBox2(self):
         if not self.keys[2]:
             screen.blit(self.key, self.keycoors[2])
+        if not self.keys[1]:
+            screen.blit(self.blackout, self.blackoutcoors)
 
     def toggleBox3(self):
         if not self.keys[3]:
             screen.blit(self.key, self.keycoors[3])
+        if not self.keys[0]:
+            screen.blit(self.blackout, self.blackoutcoors)
 
     def obtainKey(self, playerx, playery, currentbox):
         temp = Rect(playerx, playery, 20, 20)
@@ -371,6 +379,12 @@ while loop:
     for wall in walls:                                              #looping through the walls created to actually creat the rectangles
         pygame.draw.rect(screen, Color("blue"), wall.rect)
 
+    trap.draw()
+    trap.update()
+
+    player.draw()
+    player.update()
+
     if currentbox == 0:         ## generating enemies and keys for box 0
         keys.toggleBox0()
 
@@ -382,15 +396,6 @@ while loop:
 
     if currentbox == 3:         ## generating enemies and keys for box 3
         keys.toggleBox3()
-
-
-    trap.draw()
-    trap.update()
-
-    player.draw()
-    player.update()
-
-
 
     keys.obtainKey(player.x, player.y, currentbox)
 
