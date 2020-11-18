@@ -172,12 +172,11 @@ class Player():
     def kill(self):
         self.deaths += 1
         self.resetPosition()        
-       
-##Death Display
-def displayDeaths(deaths):
-    font = pygame.font.SysFont('Comic Sans MS', 45)
-    text = font.render('Deaths: ' + str(deaths), True, (255, 0, 0))
-    screen.blit(text, (10,-8))
+
+    def displayDeaths(self):
+        font = pygame.font.SysFont('Comic Sans MS', 45)
+        text = font.render('Deaths: ' + str(self.deaths), True, (255, 0, 0))
+        screen.blit(text, (10,-8))
     
     
 
@@ -270,7 +269,7 @@ while loop:
     lights.obtainKey(player.x, player.y)
 
     #deaths
-    displayDeaths(player.deaths)
+    player.displayDeaths()
 
     ##event control, move to player class
     player.update()

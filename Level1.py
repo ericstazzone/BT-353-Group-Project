@@ -170,6 +170,11 @@ class Player():
         self.deaths += 1
         self.x, self.y = self.startPos
 
+    def displayDeaths(self):
+        font = pygame.font.SysFont('Comic Sans MS', 35)
+        text = font.render('Deaths: ' + str(self.deaths), True, (255, 0, 0))
+        screen.blit(text, (400, -2))
+
              
 pygame.init()
 clock = pygame.time.Clock()
@@ -403,6 +408,7 @@ while loop:
 
     player.draw()
     player.update()
+    player.displayDeaths()
 
     if currentbox == 0:         ## generating enemies and keys for box 0
         keys.toggleBox0()
