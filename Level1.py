@@ -126,9 +126,11 @@ class Player():
         self.images.append(image3)
         self.index = 0
         self.image = self.images[self.index]
+        self.startPos = pos
         self.x = pos[0]
         self.y = pos[1]
         self.counter = 0
+        self.deaths = 0
 
     def update(self):
         self.index += 1
@@ -144,10 +146,14 @@ class Player():
     def movex(self, n):
         if not self.wallCollide(n, 0):
             self.x += n
+            return True
+        return False
 
     def movey(self, n):
         if not self.wallCollide(0, n):
             self.y += n
+            return True
+        return False
 
     def draw(self):
         screen.blit(self.image, (self.x, self.y))
@@ -158,8 +164,12 @@ class Player():
 
     def obstacleCollide(self,rectlist):
         r = Rect(self.x, self.y,25, 25)
-        if r.collidelist(rectlist) !=-1:
-            sys.exit()
+        return r.collidelist(rectlist) != -1
+    
+    def kill(self):
+        self.deaths += 1
+        self.x, self.y = self.startPos
+
              
 pygame.init()
 clock = pygame.time.Clock()
@@ -340,8 +350,17 @@ def load_box(box):                                                  #looping thr
 walls,player,trap=load_box(currentbox)
 keys = Key()
 
+died = False
+
 loop = True                                                         #running the game
 while loop:
+    
+    if died:
+        player.kill()
+        died = False
+        currentbox = 0
+        walls,player,trap=load_box(currentbox)
+    
     screen.fill(Color("white"))                                     #making the background white
 
     if currentbox==0 and player.x>=800 and player.x<=850 and player.y==0:#for the y coordinate when it hits the top of the opening, it transports to the box #1
