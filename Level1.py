@@ -4,6 +4,19 @@ from pygame.locals import *
 class Wall(object):
     def __init__(self,pos):
         self.rect=pygame.Rect(pos[0],pos[1],50,50)
+# class Tile(object):
+#     def __init__(self,pos,block):
+#         if(block=="top"):
+#             self.image = pyame.image.load('images/walltop.png')
+
+#         self.image=pygame.transform.scale(self.image, (50, 50)
+        
+#         self.x = pos[0]
+#         self.y = pos[1]
+
+#     def draw(self):
+#         screen.blit(self.image, (self.x, self.y))
+
 
 class Key():
     ## Images
@@ -160,10 +173,10 @@ screen = pygame.display.set_mode(size,0,32)
 pygame.display.set_caption('The Impossible Game')
 currentbox=0                                                        #setting the level to 1
 boxes = [[                                                          #making the boundaries
-    "WWWWWWWWWWWWWWWW WWW",
+    "WUUUUUUUUUUUUWWW WWW",
     "W   W W WWWWWWWW WWW",
     "W           WWWW WWW",
-    "W   W W WWW WW     W",
+    "W   W W WWW WW  T  W",
     "WWW WWWWWWW WWWW WWW",
     "W   WWW  T  WWW    W",
     "W WWWWW WWWWWWWWW WW",
@@ -312,14 +325,27 @@ boxes = [[                                                          #making the 
     "WWWWWWWWWWWWWWWWWWWW",
     "WWWWWWWWWWWWWWWWWWWW",
     ]]
+def topbox(x,y):
+    image = pygame.image.load('images/walltop.png')
+    image=pygame.transform.scale(image, (50, 50))
+    return image,x,y
+
  
 def load_box(box):                                                  #looping through the string above to get it set up for drawing. Creating rectangle objects
     walls=[]
+    tiles=[]
+    i=0
     x = y = 0
     for row in boxes[box]:
         for col in row:
-            if col == "W":
+            if col == "W" or col=="U":
                 walls.append(Wall((x, y)))
+            if col=="U":
+                image,corx,cory=topbox(x,y)
+                tiles.append(image)
+                tiles.append(int(corx))
+                tiles.append(int(cory))
+
             if col=="T":
                 trap=Traps((x,y))
             if col=="P":
@@ -327,43 +353,47 @@ def load_box(box):                                                  #looping thr
             x +=50
         y += 50
         x = 0
-    return walls,player,trap
-
-walls,player,trap=load_box(currentbox)
+    return walls,player,trap,tiles
+    
+walls,player,trap,tiles=load_box(currentbox) 
 keys = Key()
-
+start=True
 loop = True                                                         #running the game
-while loop:
-    screen.fill(Color("white"))                                     #making the background white
+while loop: 
+    screen.fill(Color("white"))
+
+    if currentbox==0 and start:
+        walls,player,trap,tiles=load_box(currentbox)
+        start=False                                #making the background white
 
     if currentbox==0 and player.x>=800 and player.x<=850 and player.y==0:#for the y coordinate when it hits the top of the opening, it transports to the box #1
         currentbox=1
-        walls,player,trap=load_box(currentbox)
+        walls,player,trap,tiles=load_box(currentbox)
     #considering the event when player decides go back to box #0 when in the first box   
     if currentbox==1 and player.x>=800 and player.x<=850 and player.y==750:
         currentbox=0
-        walls,player,trap=load_box(currentbox)
+        walls,player,trap,tiles=load_box(currentbox)
         player.x=800
         player.y=30
     
     if currentbox==1 and player.x>=150 and player.x<=200 and player.y==0:
         currentbox=2
-        walls,player,trap=load_box(currentbox)
+        walls,player,trap,tiles=load_box(currentbox)
     
     if currentbox==2 and player.x>=150 and player.x<=200 and player.y==750:
         currentbox=1
-        walls,player,trap=load_box(currentbox)
+        walls,player,trap,tiles=load_box(currentbox)
         player.x=150
         player.y=30
     
 
     if currentbox==0 and player.y>=650 and player.y<=700 and player.x==1000:
         currentbox=3
-        walls,player,trap=load_box(currentbox)
+        walls,player,trap,tiles=load_box(currentbox)
 
     if currentbox==3 and player.y>=650 and player.y<=700 and player.x<0:
         currentbox=0
-        walls,player,trap=load_box(currentbox)
+        walls,player,trap,tiles=load_box(currentbox)
         player.x=950
         player.y=650
     
@@ -389,6 +419,11 @@ while loop:
 
     player.draw()
     player.update()
+    i=0
+    while i<=(len(tiles)-3):
+        screen.blit(tiles[i],(tiles[i+1],tiles[i+2]))
+        i+=3
+
 
 
 
