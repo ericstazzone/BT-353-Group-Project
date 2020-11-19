@@ -61,6 +61,39 @@ class Key():
         if temp.colliderect(self.keysrect[3]) == 1 and currentbox == 3:
             self.keys[3] = True
 
+## Obstacles
+class Obstacles():
+    ## Obstacle Class
+
+    ## Enemies
+    enemy = pygame.image.load('images/circle1.png') 
+    enemy = pygame.transform.scale(enemy, (50,50))
+ 
+    coors0 = [250, 550]
+    movespeed = 2
+    check = [0]
+    circle0rect = Rect(coors0[0], coors0[1], 10, 10)
+    circlesrect=[circle0rect]
+
+    def reset(self):
+        self.coors0 = [250, 550]
+        self.check = [0]
+
+    def movement(self, enemy, enemycoors, direction, min, max):
+        if self.check[enemy] == 1: ## moving right
+            enemycoors[direction] += self.movespeed
+        else: ## moving left
+            enemycoors[direction] -= self.movespeed
+        if enemycoors[direction] > max: ## how far right the sprite goes
+            self.check[enemy] = 0
+        if enemycoors[direction] < min: ## how far left the sprite goes
+            self.check[enemy] = 1
+
+    def draw(self):
+        screen.blit(self.enemy, self.coors0)
+    
+
+
 
 class Traps():
     def __init__(self,pos):
@@ -354,6 +387,7 @@ def load_box(box):                                                  #looping thr
 
 walls,player,trap=load_box(currentbox)
 keys = Key()
+obstacles = Obstacles()
 
 died = False
 
@@ -412,6 +446,8 @@ while loop:
 
     if currentbox == 0:         ## generating enemies and keys for box 0
         keys.toggleBox0()
+        obstacles.movement(0, obstacles.coors0, 0, 250, 350)
+        obstacles.draw()
 
     if currentbox == 1:         ## generating enemies and keys for box 1
         keys.toggleBox1()

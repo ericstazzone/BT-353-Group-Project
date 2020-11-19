@@ -38,7 +38,6 @@ class Lights:
 
 ## Obstacles
 class Obstacles():
-## Would utilize this class for player movement and all things related to the player
     ## Obstacle Class
 
     ## Enemies
