@@ -413,16 +413,7 @@ def load_box(box):                                                  #looping thr
     
 walls,player,trap,tiles=load_box(currentbox) 
 keys = Key()
-<<<<<<< HEAD
-start=True
-loop = True                                                         #running the game
-while loop: 
-    screen.fill(Color("white"))
 
-    if currentbox==0 and start:
-        walls,player,trap,tiles=load_box(currentbox)
-        start=False                                #making the background white
-=======
 obstacles = Obstacles()
 
 died = False
@@ -437,7 +428,7 @@ while loop:
         walls,player,trap=load_box(currentbox)
     
     screen.fill(Color("white"))                                     #making the background white
->>>>>>> d521e14c24f2b1a9eddccfb0ca7370c98b6d036f
+
 
     if currentbox==0 and player.x>=800 and player.x<=850 and player.y==0:#for the y coordinate when it hits the top of the opening, it transports to the box #1
         currentbox=1
@@ -495,7 +486,6 @@ while loop:
     if currentbox == 3:         ## generating enemies and keys for box 3
         keys.toggleBox3()
 
-<<<<<<< HEAD
 
     trap.draw()
     trap.update()
@@ -510,8 +500,7 @@ while loop:
 
 
 
-=======
->>>>>>> d521e14c24f2b1a9eddccfb0ca7370c98b6d036f
+
     keys.obtainKey(player.x, player.y, currentbox)
 
     for event in pygame.event.get():
