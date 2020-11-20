@@ -20,11 +20,13 @@ class Wall(object):
 
 class Key():
     ## Images
-    blackout = pygame.image.load('images/blackout.png') 
-    blackout = pygame.transform.scale(blackout, (500,390))
+    blackout = pygame.image.load('images/blackout4.png') 
+    blackout = pygame.transform.scale(blackout, (1050,800))
     key = pygame.image.load('images/key1.png')
     key = pygame.transform.scale(key, (50, 50))
-        
+
+    blackoutcoors = [0, -10]
+    
     ## Key Variables
     keyscollected = 0
     keys = [False, False, False, False]
@@ -46,14 +48,20 @@ class Key():
     def toggleBox1(self):
         if not self.keys[1]:
             screen.blit(self.key, self.keycoors[1])
+        if not self.keys[0]:
+            screen.blit(self.blackout, self.blackoutcoors)
 
     def toggleBox2(self):
         if not self.keys[2]:
             screen.blit(self.key, self.keycoors[2])
+        if not self.keys[1]:
+            screen.blit(self.blackout, self.blackoutcoors)
 
     def toggleBox3(self):
         if not self.keys[3]:
             screen.blit(self.key, self.keycoors[3])
+        if not self.keys[0]:
+            screen.blit(self.blackout, self.blackoutcoors)
 
     def obtainKey(self, playerx, playery, currentbox):
         temp = Rect(playerx, playery, 20, 20)
@@ -65,6 +73,39 @@ class Key():
             self.keys[2] = True
         if temp.colliderect(self.keysrect[3]) == 1 and currentbox == 3:
             self.keys[3] = True
+
+## Obstacles
+class Obstacles():
+    ## Obstacle Class
+
+    ## Enemies
+    enemy = pygame.image.load('images/circle1.png') 
+    enemy = pygame.transform.scale(enemy, (50,50))
+ 
+    coors0 = [250, 550]
+    movespeed = 2
+    check = [0]
+    circle0rect = Rect(coors0[0], coors0[1], 10, 10)
+    circlesrect=[circle0rect]
+
+    def reset(self):
+        self.coors0 = [250, 550]
+        self.check = [0]
+
+    def movement(self, enemy, enemycoors, direction, min, max):
+        if self.check[enemy] == 1: ## moving right
+            enemycoors[direction] += self.movespeed
+        else: ## moving left
+            enemycoors[direction] -= self.movespeed
+        if enemycoors[direction] > max: ## how far right the sprite goes
+            self.check[enemy] = 0
+        if enemycoors[direction] < min: ## how far left the sprite goes
+            self.check[enemy] = 1
+
+    def draw(self):
+        screen.blit(self.enemy, self.coors0)
+    
+
 
 
 class Traps():
@@ -131,9 +172,11 @@ class Player():
         self.images.append(image3)
         self.index = 0
         self.image = self.images[self.index]
+        self.startPos = pos
         self.x = pos[0]
         self.y = pos[1]
         self.counter = 0
+        self.deaths = 0
 
     def update(self):
         self.index += 1
@@ -149,10 +192,14 @@ class Player():
     def movex(self, n):
         if not self.wallCollide(n, 0):
             self.x += n
+            return True
+        return False
 
     def movey(self, n):
         if not self.wallCollide(0, n):
             self.y += n
+            return True
+        return False
 
     def draw(self):
         screen.blit(self.image, (self.x, self.y))
@@ -163,8 +210,17 @@ class Player():
 
     def obstacleCollide(self,rectlist):
         r = Rect(self.x, self.y,25, 25)
-        if r.collidelist(rectlist) !=-1:
-            sys.exit()
+        return r.collidelist(rectlist) != -1
+    
+    def kill(self):
+        self.deaths += 1
+        self.x, self.y = self.startPos
+
+    def displayDeaths(self):
+        font = pygame.font.SysFont('Comic Sans MS', 35)
+        text = font.render('Deaths: ' + str(self.deaths), True, (255, 0, 0))
+        screen.blit(text, (400, -2))
+
              
 pygame.init()
 clock = pygame.time.Clock()
@@ -357,6 +413,7 @@ def load_box(box):                                                  #looping thr
     
 walls,player,trap,tiles=load_box(currentbox) 
 keys = Key()
+<<<<<<< HEAD
 start=True
 loop = True                                                         #running the game
 while loop: 
@@ -365,6 +422,22 @@ while loop:
     if currentbox==0 and start:
         walls,player,trap,tiles=load_box(currentbox)
         start=False                                #making the background white
+=======
+obstacles = Obstacles()
+
+died = False
+
+loop = True                                                         #running the game
+while loop:
+    
+    if died:
+        player.kill()
+        died = False
+        currentbox = 0
+        walls,player,trap=load_box(currentbox)
+    
+    screen.fill(Color("white"))                                     #making the background white
+>>>>>>> d521e14c24f2b1a9eddccfb0ca7370c98b6d036f
 
     if currentbox==0 and player.x>=800 and player.x<=850 and player.y==0:#for the y coordinate when it hits the top of the opening, it transports to the box #1
         currentbox=1
@@ -401,8 +474,17 @@ while loop:
     for wall in walls:                                              #looping through the walls created to actually creat the rectangles
         pygame.draw.rect(screen, Color("blue"), wall.rect)
 
+    trap.draw()
+    trap.update()
+
+    player.draw()
+    player.update()
+    player.displayDeaths()
+
     if currentbox == 0:         ## generating enemies and keys for box 0
         keys.toggleBox0()
+        obstacles.movement(0, obstacles.coors0, 0, 250, 350)
+        obstacles.draw()
 
     if currentbox == 1:         ## generating enemies and keys for box 1
         keys.toggleBox1()
@@ -413,6 +495,7 @@ while loop:
     if currentbox == 3:         ## generating enemies and keys for box 3
         keys.toggleBox3()
 
+<<<<<<< HEAD
 
     trap.draw()
     trap.update()
@@ -427,6 +510,8 @@ while loop:
 
 
 
+=======
+>>>>>>> d521e14c24f2b1a9eddccfb0ca7370c98b6d036f
     keys.obtainKey(player.x, player.y, currentbox)
 
     for event in pygame.event.get():
