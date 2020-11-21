@@ -450,16 +450,79 @@ while loop:
         player.x=150
         player.y=30
     
-
-    if currentbox==0 and player.y>=650 and player.y<=700 and player.x==1000:
+    if currentbox==2 and player.y>=650 and player.y<=750 and player.x==1000:
         currentbox=3
         walls,player,trap,tiles=load_box(currentbox)
+    
+    if currentbox==3 and player.y>=650 and player.y<=750 and player.x<0:
+        currentbox=2
+        walls,player,trap,tiles=load_box(currentbox)
+        player.x=950
+        player.y=650
+    
 
-    if currentbox==3 and player.y>=650 and player.y<=700 and player.x<0:
+    if currentbox==0 and player.y>=650 and player.y<=700 and player.x==1000:
+        currentbox=5
+        walls,player,trap,tiles=load_box(currentbox)
+
+    if currentbox==5 and player.y>=650 and player.y<=700 and player.x<0:
         currentbox=0
         walls,player,trap,tiles=load_box(currentbox)
         player.x=950
         player.y=650
+    
+    if currentbox==5 and player.x>=800 and player.x<=850 and player.y==0:
+        currentbox=4
+        walls,player,trap,tiles=load_box(currentbox)
+    
+    if currentbox==4 and player.x>=800 and player.x<=850 and player.y==750:
+        currentbox=5
+        walls,player,trap,tiles=load_box(currentbox)
+        player.x=800 
+        player.y=30
+    if currentbox==4 and player.x>=900 and player.x<=950 and player.y==0:
+        currentbox=3
+        walls,player,trap,tiles=load_box(currentbox)
+        player.x=900
+        player.y=720
+    if currentbox==3 and player.x>=900 and player.x<=950 and player.y==750:
+        currentbox=4
+        walls,player,trap,tiles=load_box(currentbox)
+        player.x=900
+        player.y=30
+    if currentbox==3 and player.y>=50 and player.y<=100 and player.x==1000:
+        currentbox=6
+        walls,player,trap,tiles=load_box(currentbox)
+
+    if currentbox==6 and player.y>=50 and player.y<=100 and player.x<0:
+        currentbox=3
+        walls,player,trap,tiles=load_box(currentbox)
+        player.x=950
+        player.y=50
+    
+    if currentbox==6 and player.x>=900 and player.x<=950 and player.y==750:
+        currentbox=7
+        walls,player,trap,tiles=load_box(currentbox)
+        player.y=30
+    
+    if currentbox==7 and player.x>=900 and player.x<=950 and player.y==0:
+        currentbox=6
+        walls,player,trap,tiles=load_box(currentbox)
+        player.x=900
+        player.y=720
+    if currentbox==7 and player.x>=150 and player.x<=200 and player.y==750:
+        currentbox=8
+        walls,player,trap,tiles=load_box(currentbox)
+        player.y=30
+    if currentbox==8 and player.x>=150 and player.x<=200 and player.y==0:
+        currentbox=7
+        walls,player,trap,tiles=load_box(currentbox)
+        player.x=150
+        player.y=720
+
+
+
+    
     
 
     for wall in walls:                                              #looping through the walls created to actually creat the rectangles
