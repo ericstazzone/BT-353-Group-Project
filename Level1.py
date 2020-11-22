@@ -28,7 +28,6 @@ class Key():
     blackoutcoors = [0, -10]
     
     ## Key Variables
-    keyscollected = 0
     keys = [False, False, False, False]
     keycoors0 = [350, 295]
     keycoors1 = [900, 400]
@@ -73,6 +72,22 @@ class Key():
             self.keys[2] = True
         if temp.colliderect(self.keysrect[3]) == 1 and currentbox == 3:
             self.keys[3] = True
+
+    def keysCollected(self):
+        count = 0
+        for k in self.keys:
+            if k:
+                count += 1
+        return count
+
+    def keyCountDisplay(self):
+        count = self.keysCollected()
+        image = pygame.image.load('images/key1.png')
+        image = pygame.transform.scale(image, (40, 40))
+        screen.blit(image, (945, 50))
+        font = pygame.font.SysFont('Comic Sans MS', 25)
+        text = font.render(str(count), True, (255, 255, 255))
+        screen.blit(text, (981, 50))
 
 ## Obstacles
 class Obstacles():
@@ -559,6 +574,7 @@ while loop:
         i+=3
     
     player.displayDeaths()
+    keys.keyCountDisplay()
 
 
 
