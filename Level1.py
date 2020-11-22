@@ -419,8 +419,12 @@ obstacles = Obstacles()
 died = False
 
 loop = True                                                         #running the game
+pause = False
 while loop:
-    
+    while pause:
+        for event in pygame.event.get():
+            if event.type == KEYUP and event.key == K_p:
+                pause = False
     if died:
         player.kill()
         died = False
@@ -528,13 +532,6 @@ while loop:
     for wall in walls:                                              #looping through the walls created to actually creat the rectangles
         pygame.draw.rect(screen, Color("blue"), wall.rect)
 
-    trap.draw()
-    trap.update()
-
-    player.draw()
-    player.update()
-    player.displayDeaths()
-
     if currentbox == 0:         ## generating enemies and keys for box 0
         keys.toggleBox0()
         obstacles.movement(0, obstacles.coors0, 0, 250, 350)
@@ -555,10 +552,13 @@ while loop:
 
     player.draw()
     player.update()
+    
     i=0
     while i<=(len(tiles)-3):
         screen.blit(tiles[i],(tiles[i+1],tiles[i+2]))
         i+=3
+    
+    player.displayDeaths()
 
 
 
@@ -569,7 +569,11 @@ while loop:
     for event in pygame.event.get():
         if event.type==QUIT:
             loop = False
+        if event.type == KEYUP and event.key == K_p:
+            pause = True
+    
     key = pygame.key.get_pressed()
+    
     if key[pygame.K_w] or key[pygame.K_UP]:
         player.movey(-10)
     elif key[pygame.K_a] or key[pygame.K_LEFT]: 
