@@ -2,6 +2,67 @@ import pygame, sys
 from pygame.locals import *
 from pygame import mixer
 
+class Player():
+                                                                    ## Would utilize this class for player movement and all things related to the player
+    def __init__(self,pos):
+        self.images = []
+        image1 = pygame.image.load('images/square1.png')
+        image2 = pygame.image.load('images/square2.png')
+        image3 = pygame.image.load('images/square3.png')
+        self.images.append(image1)
+        self.images.append(image2)
+        self.images.append(image3)
+        self.index = 0
+        self.image = self.images[self.index]
+        self.startPos = pos
+        self.x = pos[0]
+        self.y = pos[1]
+        self.counter = 0
+        self.deaths = 0
+
+    def update(self):
+        self.index += 1
+        if self.index >= 4:
+            self.counter += 1
+            self.index = 0
+        if self.counter >= len(self.images):
+            self.index = 0
+            self.counter = 0
+        self.image = self.images[self.counter]
+        self.image = pygame.transform.scale(self.image, (40, 40))
+        
+    def movex(self, n):
+        if not self.wallCollide(n, 0):
+            self.x += n
+            return True
+        return False
+
+    def movey(self, n):
+        if not self.wallCollide(0, n):
+            self.y += n
+            return True
+        return False
+
+    def draw(self):
+        screen.blit(self.image, (self.x, self.y))
+
+    def wallCollide(self, xsteps, ysteps):
+        r = Rect(self.x+xsteps, self.y+ysteps, 40, 40)
+        return r.collidelist(walls) != -1
+
+    def obstacleCollide(self,rectlist):
+        r = Rect(self.x, self.y,25, 25)
+        return r.collidelist(rectlist) != -1
+    
+    def kill(self):
+        self.deaths += 1
+        self.x, self.y = self.startPos
+
+    def displayDeaths(self):
+        font = pygame.font.SysFont('Comic Sans MS', 35)
+        text = font.render('Deaths: ' + str(self.deaths), True, (255, 0, 0))
+        screen.blit(text, (400, -2))
+
 class Wall(object):
     def __init__(self,pos):
         self.rect=pygame.Rect(pos[0],pos[1],50,50)
@@ -17,7 +78,6 @@ class Wall(object):
 
 #     def draw(self):
 #         screen.blit(self.image, (self.x, self.y))
-
 
 class Key():
     ## Images
@@ -247,75 +307,46 @@ class Traps():
                                                                     #make sure to set the x and y 
                                                                     #update function
        
-class Player():
-                                                                    ## Would utilize this class for player movement and all things related to the player
-    def __init__(self,pos):
-        self.images = []
-        image1 = pygame.image.load('images/square1.png')
-        image2 = pygame.image.load('images/square2.png')
-        image3 = pygame.image.load('images/square3.png')
-        self.images.append(image1)
-        self.images.append(image2)
-        self.images.append(image3)
-        self.index = 0
-        self.image = self.images[self.index]
-        self.startPos = pos
-        self.x = pos[0]
-        self.y = pos[1]
-        self.counter = 0
-        self.deaths = 0
+def topbox(x,y):
+    image = pygame.image.load('images/walltop.png')
+    image=pygame.transform.scale(image, (50, 50))
+    return image,x,y
 
-    def update(self):
-        self.index += 1
-        if self.index >= 4:
-            self.counter += 1
-            self.index = 0
-        if self.counter >= len(self.images):
-            self.index = 0
-            self.counter = 0
-        self.image = self.images[self.counter]
-        self.image = pygame.transform.scale(self.image, (40, 40))
-        
-    def movex(self, n):
-        if not self.wallCollide(n, 0):
-            self.x += n
-            return True
-        return False
+ 
+def load_box(box):                                                  #looping through the string above to get it set up for drawing. Creating rectangle objects
+    walls=[]
+    tiles=[]
+    i=0
+    x = y = 0
+    for row in boxes[box]:
+        for col in row:
+            if col == "W" or col=="U":
+                walls.append(Wall((x, y)))
+            if col=="U":
+                image,corx,cory=topbox(x,y)
+                tiles.append(image)
+                tiles.append(int(corx))
+                tiles.append(int(cory))
 
-    def movey(self, n):
-        if not self.wallCollide(0, n):
-            self.y += n
-            return True
-        return False
-
-    def draw(self):
-        screen.blit(self.image, (self.x, self.y))
-
-    def wallCollide(self, xsteps, ysteps):
-        r = Rect(self.x+xsteps, self.y+ysteps, 40, 40)
-        return r.collidelist(walls) != -1
-
-    def obstacleCollide(self,rectlist):
-        r = Rect(self.x, self.y,25, 25)
-        return r.collidelist(rectlist) != -1
-    
-    def kill(self):
-        self.deaths += 1
-        self.x, self.y = self.startPos
-
-    def displayDeaths(self):
-        font = pygame.font.SysFont('Comic Sans MS', 35)
-        text = font.render('Deaths: ' + str(self.deaths), True, (255, 0, 0))
-        screen.blit(text, (400, -2))
-
+            if col=="T":
+                trap=Traps((x,y))
+            if col=="P":
+                player=Player((x,y))
+            x +=50
+        y += 50
+        x = 0
+    return walls,player,trap,tiles
              
 pygame.init()
 backgroundsound = mixer.music.load('song1_aLtZHmr9.wav')
 mixer.music.play(-1)
+
 clock = pygame.time.Clock()
+
 size = 1000,750
 screen = pygame.display.set_mode(size,0,32)
 pygame.display.set_caption('The Impossible Game')
+
 currentbox=0                                                        #setting the level to 1
 boxes = [[                                                          #making the boundaries
     "WUUUUUUUUUUUUWWW WWW",
@@ -470,43 +501,11 @@ boxes = [[                                                          #making the 
     "WWWWWWWWWWWWWWWWWWWW",
     "WWWWWWWWWWWWWWWWWWWW",
     ]]
-def topbox(x,y):
-    image = pygame.image.load('images/walltop.png')
-    image=pygame.transform.scale(image, (50, 50))
-    return image,x,y
-
- 
-def load_box(box):                                                  #looping through the string above to get it set up for drawing. Creating rectangle objects
-    walls=[]
-    tiles=[]
-    i=0
-    x = y = 0
-    for row in boxes[box]:
-        for col in row:
-            if col == "W" or col=="U":
-                walls.append(Wall((x, y)))
-            if col=="U":
-                image,corx,cory=topbox(x,y)
-                tiles.append(image)
-                tiles.append(int(corx))
-                tiles.append(int(cory))
-
-            if col=="T":
-                trap=Traps((x,y))
-            if col=="P":
-                player=Player((x,y))
-            x +=50
-        y += 50
-        x = 0
-    return walls,player,trap,tiles
     
 walls,player,trap,tiles=load_box(currentbox) 
 keys = Key()
-
 obstacles = Obstacles()
-
 died = False
-
 loop = True                                                         #running the game
 pause = False
 while loop:
@@ -522,11 +521,11 @@ while loop:
     
     screen.fill(Color("white"))                                     #making the background white
 
-
     if currentbox==0 and player.x>=800 and player.x<=850 and player.y==0:#for the y coordinate when it hits the top of the opening, it transports to the box #1
         currentbox=1
         walls,player,trap,tiles=load_box(currentbox)
     #considering the event when player decides go back to box #0 when in the first box   
+
     if currentbox==1 and player.x>=800 and player.x<=850 and player.y==750:
         currentbox=0
         walls,player,trap,tiles=load_box(currentbox)
@@ -553,7 +552,6 @@ while loop:
         player.x=950
         player.y=650
     
-
     if currentbox==0 and player.y>=650 and player.y<=700 and player.x==1000:
         currentbox=5
         walls,player,trap,tiles=load_box(currentbox)
@@ -573,16 +571,19 @@ while loop:
         walls,player,trap,tiles=load_box(currentbox)
         player.x=800 
         player.y=30
+
     if currentbox==4 and player.x>=900 and player.x<=950 and player.y==0:
         currentbox=3
         walls,player,trap,tiles=load_box(currentbox)
         player.x=900
         player.y=720
+
     if currentbox==3 and player.x>=900 and player.x<=950 and player.y==750:
         currentbox=4
         walls,player,trap,tiles=load_box(currentbox)
         player.x=900
         player.y=30
+
     if currentbox==3 and player.y>=50 and player.y<=100 and player.x==1000:
         currentbox=6
         walls,player,trap,tiles=load_box(currentbox)
@@ -603,20 +604,17 @@ while loop:
         walls,player,trap,tiles=load_box(currentbox)
         player.x=900
         player.y=720
+
     if currentbox==7 and player.x>=150 and player.x<=200 and player.y==750:
         currentbox=8
         walls,player,trap,tiles=load_box(currentbox)
         player.y=30
+
     if currentbox==8 and player.x>=150 and player.x<=200 and player.y==0:
         currentbox=7
         walls,player,trap,tiles=load_box(currentbox)
         player.x=150
         player.y=720
-
-
-
-    
-    
 
     for wall in walls:                                              #looping through the walls created to actually creat the rectangles
         pygame.draw.rect(screen, Color("blue"), wall.rect)
@@ -691,5 +689,6 @@ while loop:
     elif key[pygame.K_d] or key[pygame.K_RIGHT]: 
         player.movex(10)
     pygame.display.flip()                                           #refresh display
-    clock.tick(30)                                                  #fps
+    clock.tick(30)                                                 #fps
+
 pygame.quit()                                                       
