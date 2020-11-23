@@ -147,10 +147,26 @@ class Obstacles():
     enemy = pygame.transform.scale(enemy, (50,50))
  
     coors0 = [250, 550]
+    coors1 = [250, 50]
+    coors2 = [350, 100]
+    coors3 = [700, 150]
+    coors4 = [750, 250]
+    coors5 = [750, 350]
+    coors6 = [675, 450]
+    coors7 = [450, 400]
+    coors8 = [500, 500]
     movespeed = 2
-    check = [0]
+    check = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     circle0rect = Rect(coors0[0], coors0[1], 10, 10)
-    circlesrect=[circle0rect]
+    circle1rect = Rect(coors1[0], coors1[1], 10, 10)
+    circle2rect = Rect(coors2[0], coors2[1], 10, 10)
+    circle3rect = Rect(coors3[0], coors3[1], 10, 10)
+    circle4rect = Rect(coors4[0], coors4[1], 10, 10)
+    circle5rect = Rect(coors5[0], coors5[1], 10, 10)
+    circle6rect = Rect(coors6[0], coors6[1], 10, 10)
+    circle7rect = Rect(coors7[0], coors7[1], 10, 10)
+    circle8rect = Rect(coors8[0], coors8[1], 10, 10)
+    circlesrect=[circle0rect, circle1rect, circle2rect, circle3rect, circle4rect, circle5rect, circle6rect, circle7rect, circle8rect]
 
     def reset(self):
         self.coors0 = [250, 550]
@@ -168,8 +184,14 @@ class Obstacles():
 
     def draw1(self):
         screen.blit(self.enemy, self.coors0)
-    
-
+        screen.blit(self.enemy, self.coors1)
+        screen.blit(self.enemy, self.coors2)
+        screen.blit(self.enemy, self.coors3)
+        screen.blit(self.enemy, self.coors4)
+        screen.blit(self.enemy, self.coors5)
+        screen.blit(self.enemy, self.coors6)    
+        screen.blit(self.enemy, self.coors7)
+        screen.blit(self.enemy, self.coors8)
 
 
 class Traps():
@@ -605,6 +627,14 @@ while loop:
     if currentbox == 0:         ## generating enemies and keys for box 0
         keys.toggleBox0()
         obstacles.movement(0, obstacles.coors0, 0, 250, 350)
+        obstacles.movement(1, obstacles.coors1, 1, 50, 150)
+        obstacles.movement(2, obstacles.coors2, 1, 50, 150)
+        obstacles.movement(3, obstacles.coors3, 0, 700, 900)
+        obstacles.movement(4, obstacles.coors4, 0, 750, 900)
+        obstacles.movement(5, obstacles.coors5, 0, 700, 900)
+        obstacles.movement(6, obstacles.coors6, 0, 650, 850)
+        obstacles.movement(7, obstacles.coors7, 0, 450, 550)
+        obstacles.movement(8, obstacles.coors8, 0, 450, 550)
         obstacles.draw1()
 
     if currentbox == 1:         ## generating enemies and keys for box 1
@@ -616,19 +646,19 @@ while loop:
     if currentbox == 3:         ## generating enemies and keys for box 3
         keys.toggleBox3()
 
-    if currentbox == 4:         ## generating enemies and keys for box 3
+    if currentbox == 4:         ## generating enemies and keys for box 4
         keys.toggleBox4()
 
-    if currentbox == 5:         ## generating enemies and keys for box 3
+    if currentbox == 5:         ## generating enemies and keys for box 5
         keys.toggleBox5()
     
-    if currentbox == 6:         ## generating enemies and keys for box 3
+    if currentbox == 6:         ## generating enemies and keys for box 6
         keys.toggleBox6()
     
-    if currentbox == 7:         ## generating enemies and keys for box 3
+    if currentbox == 7:         ## generating enemies and keys for box 7
         keys.toggleBox7()
 
-    if currentbox == 8:         ## generating enemies and keys for box 3
+    if currentbox == 8:         ## generating enemies and keys for box 8
         keys.toggleBox8()
 
     i=0
