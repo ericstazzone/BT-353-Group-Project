@@ -1,5 +1,6 @@
 import pygame, sys
 from pygame.locals import *
+from pygame import mixer
 
 class Wall(object):
     def __init__(self,pos):
@@ -309,6 +310,8 @@ class Player():
 
              
 pygame.init()
+backgroundsound = mixer.music.load('song1_aLtZHmr9.wav')
+mixer.music.play(-1)
 clock = pygame.time.Clock()
 size = 1000,750
 screen = pygame.display.set_mode(size,0,32)
