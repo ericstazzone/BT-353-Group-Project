@@ -28,17 +28,25 @@ class Key():
     blackoutcoors = [0, -10]
     
     ## Key Variables
-    keys = [False, False, False, False]
+    keys = [False, False, False, False, False, False, False, False]
     keycoors0 = [350, 295]
     keycoors1 = [900, 400]
     keycoors2 = [300, 350]
     keycoors3 = [480, 600]
-    keycoors = [keycoors0, keycoors1, keycoors2, keycoors3]
+    keycoors4 = [800, 200]
+    keycoors5 = [50, 50]
+    keycoors6 = [800, 650]
+    keycoors7 = [250, 350]
+    keycoors = [keycoors0, keycoors1, keycoors2, keycoors3, keycoors4, keycoors5, keycoors6, keycoors7]
     key0rect = Rect(keycoors[0][0], keycoors[0][1], 50, 50)
     key1rect = Rect(keycoors[1][0], keycoors[1][1], 50, 50)
     key2rect = Rect(keycoors[2][0], keycoors[2][1], 50, 50)
     key3rect = Rect(keycoors[3][0], keycoors[3][1], 50, 50)
-    keysrect = [key0rect, key1rect, key2rect, key3rect]
+    key4rect = Rect(keycoors[4][0], keycoors[4][1], 50, 50)
+    key5rect = Rect(keycoors[5][0], keycoors[5][1], 50, 50)
+    key6rect = Rect(keycoors[6][0], keycoors[6][1], 50, 50)
+    key7rect = Rect(keycoors[7][0], keycoors[7][1], 50, 50)
+    keysrect = [key0rect, key1rect, key2rect, key3rect, key4rect, key5rect, key6rect, key7rect]
                                 
     def toggleBox0(self):
         if not self.keys[0]:
@@ -59,7 +67,40 @@ class Key():
     def toggleBox3(self):
         if not self.keys[3]:
             screen.blit(self.key, self.keycoors[3])
+        if not self.keys[2]:
+            screen.blit(self.blackout, self.blackoutcoors)
+
+    def toggleBox4(self):
+        if not self.keys[4]:
+            screen.blit(self.key, self.keycoors[4])
+        if not self.keys[5]:
+            screen.blit(self.blackout, self.blackoutcoors)
+
+    def toggleBox5(self):
+        if not self.keys[5]:
+            screen.blit(self.key, self.keycoors[5])
         if not self.keys[0]:
+            screen.blit(self.blackout, self.blackoutcoors)
+
+    def toggleBox6(self):
+        count = 0
+        for k in self.keys:
+            if k:
+                count += 1
+
+        if not self.keys[6]:
+            screen.blit(self.key, self.keycoors[6])
+        if count < 6:
+            screen.blit(self.blackout, self.blackoutcoors)
+
+    def toggleBox7(self):
+        if not self.keys[7]:
+            screen.blit(self.key, self.keycoors[7])
+        if not self.keys[6]:
+            screen.blit(self.blackout, self.blackoutcoors)
+
+    def toggleBox8(self):
+        if not self.keys[7]:
             screen.blit(self.blackout, self.blackoutcoors)
 
     def obtainKey(self, playerx, playery, currentbox):
@@ -72,6 +113,14 @@ class Key():
             self.keys[2] = True
         if temp.colliderect(self.keysrect[3]) == 1 and currentbox == 3:
             self.keys[3] = True
+        if temp.colliderect(self.keysrect[4]) == 1 and currentbox == 4:
+            self.keys[4] = True        
+        if temp.colliderect(self.keysrect[5]) == 1 and currentbox == 5:
+            self.keys[5] = True
+        if temp.colliderect(self.keysrect[6]) == 1 and currentbox == 6:
+            self.keys[6] = True
+        if temp.colliderect(self.keysrect[7]) == 1 and currentbox == 7:
+            self.keys[7] = True
 
     def keysCollected(self):
         count = 0
@@ -117,7 +166,7 @@ class Obstacles():
         if enemycoors[direction] < min: ## how far left the sprite goes
             self.check[enemy] = 1
 
-    def draw(self):
+    def draw1(self):
         screen.blit(self.enemy, self.coors0)
     
 
@@ -547,10 +596,16 @@ while loop:
     for wall in walls:                                              #looping through the walls created to actually creat the rectangles
         pygame.draw.rect(screen, Color("blue"), wall.rect)
 
+    trap.draw()
+    trap.update()
+
+    player.draw()
+    player.update()
+    
     if currentbox == 0:         ## generating enemies and keys for box 0
         keys.toggleBox0()
         obstacles.movement(0, obstacles.coors0, 0, 250, 350)
-        obstacles.draw()
+        obstacles.draw1()
 
     if currentbox == 1:         ## generating enemies and keys for box 1
         keys.toggleBox1()
@@ -561,13 +616,21 @@ while loop:
     if currentbox == 3:         ## generating enemies and keys for box 3
         keys.toggleBox3()
 
+    if currentbox == 4:         ## generating enemies and keys for box 3
+        keys.toggleBox4()
 
-    trap.draw()
-    trap.update()
-
-    player.draw()
-    player.update()
+    if currentbox == 5:         ## generating enemies and keys for box 3
+        keys.toggleBox5()
     
+    if currentbox == 6:         ## generating enemies and keys for box 3
+        keys.toggleBox6()
+    
+    if currentbox == 7:         ## generating enemies and keys for box 3
+        keys.toggleBox7()
+
+    if currentbox == 8:         ## generating enemies and keys for box 3
+        keys.toggleBox8()
+
     i=0
     while i<=(len(tiles)-3):
         screen.blit(tiles[i],(tiles[i+1],tiles[i+2]))
@@ -575,10 +638,6 @@ while loop:
     
     player.displayDeaths()
     keys.keyCountDisplay()
-
-
-
-
 
     keys.obtainKey(player.x, player.y, currentbox)
 
