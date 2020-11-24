@@ -14,11 +14,9 @@ class Player():
         self.images.append(image3)
         self.index = 0
         self.image = self.images[self.index]
-        self.startPos = pos
         self.x = pos[0]
         self.y = pos[1]
         self.counter = 0
-        self.deaths = 0
 
     def update(self):
         self.index += 1
@@ -53,15 +51,6 @@ class Player():
     def obstacleCollide(self,rectlist):
         r = Rect(self.x, self.y,25, 25)
         return r.collidelist(rectlist) != -1
-    
-    def kill(self):
-        self.deaths += 1
-        self.x, self.y = self.startPos
-
-    def displayDeaths(self):
-        font = pygame.font.SysFont('Comic Sans MS', 35)
-        text = font.render('Deaths: ' + str(self.deaths), True, (255, 0, 0))
-        screen.blit(text, (400, -2))
     
     def trapped(self, traps):
         r = Rect(self.x, self.y, 30, 30)
@@ -429,6 +418,12 @@ def load_box(box):                                                  #looping thr
         x = 0
     return walls,player,traps,tiles
              
+
+def displayDeaths(deaths):
+        font = pygame.font.SysFont('Comic Sans MS', 35)
+        text = font.render('Deaths: ' + str(deaths), True, (255, 0, 0))
+        screen.blit(text, (400, -2))
+    
 pygame.init()
 backgroundsound = mixer.music.load('song1_aLtZHmr9.wav')
 mixer.music.play(-1)
@@ -593,7 +588,8 @@ boxes = [[                                                          #making the 
     "WWWWWWWWWWWWWWWWWWWW",
     "WWWWWWWWWWWWWWWWWWWW",
     ]]
-    
+
+deaths = 0
 walls,player,trap,tiles=load_box(currentbox) 
 keys = Key()
 obstacles = Obstacles()
@@ -606,10 +602,10 @@ while loop:
             if event.type == KEYUP and event.key == K_p:
                 pause = False
     if died:
-        player.kill()
         died = False
+        deaths += 1
         currentbox = 0
-        walls,player,trap, tiles=load_box(currentbox)
+        walls,player,trap,tiles=load_box(currentbox)
     
     screen.fill(Color("white"))                                     #making the background white
 
@@ -760,7 +756,7 @@ while loop:
         screen.blit(tiles[i],(tiles[i+1],tiles[i+2]))
         i+=3
     
-    player.displayDeaths()
+    displayDeaths(deaths)
     keys.keyCountDisplay()
 
     keys.obtainKey(player.x, player.y, currentbox)
