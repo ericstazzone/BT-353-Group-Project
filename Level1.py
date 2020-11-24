@@ -600,7 +600,7 @@ while loop:
         player.kill()
         died = False
         currentbox = 0
-        walls,player,trap=load_box(currentbox)
+        walls,player,trap, tiles=load_box(currentbox)
     
     screen.fill(Color("white"))                                     #making the background white
 
