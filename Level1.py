@@ -62,6 +62,14 @@ class Player():
         font = pygame.font.SysFont('Comic Sans MS', 35)
         text = font.render('Deaths: ' + str(self.deaths), True, (255, 0, 0))
         screen.blit(text, (400, -2))
+    
+    def trapped(self, traps):
+        r = Rect(self.x, self.y, 30, 30)
+        for t in traps:
+            tr = Rect(t.x, t.y, 30, 30)
+            if (r.colliderect(tr) and t.counter > 5 and t.counter < 9):
+                return True
+        return False
 
 class Wall(object):
     def __init__(self,pos):
@@ -318,6 +326,7 @@ def tile(x,y,image):
 def load_box(box):                                                  #looping through the string above to get it set up for drawing. Creating rectangle objects
     walls=[]
     tiles=[]
+    traps=[]
     i=0
     x = y = 0
     for row in boxes[box]:
@@ -412,13 +421,13 @@ def load_box(box):                                                  #looping thr
 
 
             if col=="T":
-                trap=Traps((x,y))
+                traps.append(Traps((x,y)))
             if col=="P":
                 player=Player((x,y))
             x +=50
         y += 50
         x = 0
-    return walls,player,trap,tiles
+    return walls,player,traps,tiles
              
 pygame.init()
 backgroundsound = mixer.music.load('song1_aLtZHmr9.wav')
@@ -702,8 +711,9 @@ while loop:
     for wall in walls:                                              #looping through the walls created to actually creat the rectangles
         pygame.draw.rect(screen, Color("white"), wall.rect)
 
-    trap.draw()
-    trap.update()
+    for t in trap:
+        t.draw()
+        t.update()
 
     player.draw()
     player.update()
@@ -754,6 +764,8 @@ while loop:
     keys.keyCountDisplay()
 
     keys.obtainKey(player.x, player.y, currentbox)
+
+    died = player.trapped(trap)
 
     for event in pygame.event.get():
         if event.type==QUIT:
