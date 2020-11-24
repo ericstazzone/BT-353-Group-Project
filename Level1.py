@@ -307,8 +307,10 @@ class Traps():
                                                                     #make sure to set the x and y 
                                                                     #update function
        
-def topbox(x,y):
-    image = pygame.image.load('images/walltop.png')
+
+
+def tile(x,y,image):
+    image = pygame.image.load(image)
     image=pygame.transform.scale(image, (50, 50))
     return image,x,y
 
@@ -320,13 +322,94 @@ def load_box(box):                                                  #looping thr
     x = y = 0
     for row in boxes[box]:
         for col in row:
-            if col == "W" or col=="U":
+            if col in ["A","B","C","D","E","F","H","I","J","K","L","M","N","O","Q"]:
                 walls.append(Wall((x, y)))
-            if col=="U":
-                image,corx,cory=topbox(x,y)
+            if col=="A":
+                image,corx,cory=tile(x,y,'images/walldownA.png')
                 tiles.append(image)
                 tiles.append(int(corx))
                 tiles.append(int(cory))
+            if col=="B":
+                image,corx,cory=tile(x,y,'images/walldownleftB.png')
+                tiles.append(image)
+                tiles.append(int(corx))
+                tiles.append(int(cory))
+            if col=="C":
+                image,corx,cory=tile(x,y,'images/walldownleftrightC.png')
+                tiles.append(image)
+                tiles.append(int(corx))
+                tiles.append(int(cory))
+            if col=="D":
+                image,corx,cory=tile(x,y,'images/walldownrightD.png')
+                tiles.append(image)
+                tiles.append(int(corx))
+                tiles.append(int(cory))
+            
+            if col=="E":
+                image,corx,cory=tile(x,y,'images/wallleftE.png')
+                tiles.append(image)
+                tiles.append(int(corx))
+                tiles.append(int(cory))
+            if col=="F":
+                image,corx,cory=tile(x,y,'images/wallleftrightF.png')
+                tiles.append(image)
+                tiles.append(int(corx))
+                tiles.append(int(cory))
+            if col=="G":
+                image,corx,cory=tile(x,y,'images/wallnoneG.png')
+                tiles.append(image)
+                tiles.append(int(corx))
+                tiles.append(int(cory))
+
+            if col=="H":
+                image,corx,cory=tile(x,y,'images/wallrightH.png')
+                tiles.append(image)
+                tiles.append(int(corx))
+                tiles.append(int(cory))
+            if col=="I":
+                image,corx,cory=tile(x,y,'images/wallupdownI.png')
+                tiles.append(image)
+                tiles.append(int(corx))
+                tiles.append(int(cory))
+        
+            if col=="J":
+                image,corx,cory=tile(x,y,'images/wallupdownleftJ.png')
+                tiles.append(image)
+                tiles.append(int(corx))
+                tiles.append(int(cory))
+            if col=="K":
+                image,corx,cory=tile(x,y,'images/wallupdownleftrightK.png')
+                tiles.append(image)
+                tiles.append(int(corx))
+                tiles.append(int(cory))
+            if col=="L":
+                image,corx,cory=tile(x,y,'images/wallupdownrightL.png')
+                tiles.append(image)
+                tiles.append(int(corx))
+                tiles.append(int(cory))
+            if col=="M":
+                image,corx,cory=tile(x,y,'images/wallupleftM.png')
+                tiles.append(image)
+                tiles.append(int(corx))
+                tiles.append(int(cory))
+            if col=="N":
+                image,corx,cory=tile(x,y,'images/wallupleftrightN.png')
+                tiles.append(image)
+                tiles.append(int(corx))
+                tiles.append(int(cory))
+            if col=="O":
+                image,corx,cory=tile(x,y,'images/wallupO.png')
+                tiles.append(image)
+                tiles.append(int(corx))
+                tiles.append(int(cory))
+            if col=="Q":
+                image,corx,cory=tile(x,y,'images/walluprightQ.png')
+                tiles.append(image)
+                tiles.append(int(corx))
+                tiles.append(int(cory))
+            
+            
+
 
             if col=="T":
                 trap=Traps((x,y))
@@ -349,21 +432,21 @@ pygame.display.set_caption('The Impossible Game')
 
 currentbox=0                                                        #setting the level to 1
 boxes = [[                                                          #making the boundaries
-    "WUUUUUUUUUUUUWWW WWW",
-    "W   W W WWWWWWWW WWW",
-    "W           WWWW WWW",
-    "W   W W WWW WW  T  W",
-    "WWW WWWWWWW WWWW WWW",
-    "W   WWW  T  WWW    W",
-    "W WWWWW WWWWWWWWW WW",
-    "W   WWWWWWWWWW     W",
-    "W W         WWW WWWW",
-    "W W  W WW W W     WW",
-    "W W  W WW   WWWW WWW",
-    "W   W   WW WWWWW WWW",
-    "W   WW WWW WWWW   WW",
-    "W P W               ",
-    "WWWWWWWWWWWWWWWWWWWW", 
+    "DFFFCFCFCCCCCCCB DCB",
+    "I   O O PNNNKKKJ LKJ",
+    "I           LKNM PNJ",
+    "I   A A DCB LJ  T  I",
+    "LFE LCKFNNM LKCE HFJ",
+    "I   LKJ   T LKJ    I",
+    "I HFKKJ DKCCKKNFE HJ",
+    "I   QNNFNNNNKJ     I",
+    "I B         LNE HFCJ",
+    "I J  A DB G I     LJ",
+    "I M  O QJ   LCCB DKJ",
+    "I   A   LB DKKKM QKJ",
+    "I   LE HNM QNNM   QM",
+    "I P I               ",
+    "QFFFNFFFFFFFFFFFFFFF", 
     ],
     [
     "WWW WWWWWWWWWWWWWWWW",
@@ -617,7 +700,7 @@ while loop:
         player.y=720
 
     for wall in walls:                                              #looping through the walls created to actually creat the rectangles
-        pygame.draw.rect(screen, Color("blue"), wall.rect)
+        pygame.draw.rect(screen, Color("white"), wall.rect)
 
     trap.draw()
     trap.update()
