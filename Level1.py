@@ -453,21 +453,21 @@ boxes = [[                                                          #making the 
     "QFFFNFFFFFFFFFFFFFFF", 
     ],
     [
-    "WWW WWWWWWWWWWWWWWWW",
-    "WWW             WWWW",
-    "WWWWWWWWW WW  WWWWWW",
-    "W            WWWWWWW",
-    "W WWWWWWWWWWWW     W",
-    "W W WWW   WWWW WWW W",
-    "W       W  W       W",
-    "WWW WWWWWW W  W  W W",
-    "WWWW   WWW W     W W",
-    "W    W     W WWW WWW",
-    "W W WW W WWW  W  WWW",
-    "W   WW   WWW     WWW",
-    "W WWWWWWWWWW  W  WWW",
-    "W  T             WWW",
-    "WWWWWWWWWWWWWWWWPWWW",
+    "DCB HFFFFFFFFFFFCCCB",
+    "LKJ             LKKJ",
+    "LNNFFFFFE HE  DCKKKJ",
+    "I            DNNNNNJ",
+    "I DFCCCFFFCCCJ     I",
+    "I O QNM   QKNM HFE I",
+    "I       A  I       I",
+    "LCB HFFCKB I  G  A I",
+    "LNNE   QNM I     I I",
+    "I    A     I HCE LCJ",
+    "I G DJ G DCJ  O  LKJ",
+    "I   LJ   LKJ     LKJ",
+    "I HCNNFFFNNM  G  LKJ",
+    "I  T             LKJ",
+    "QFFFFFFFFFFFFFFEPQNM",
     ],
     [
     "WWWWWWWWWWWWWWWWWWWW",
@@ -713,6 +713,11 @@ while loop:
 
     player.draw()
     player.update()
+
+    i=0
+    while i<=(len(tiles)-3):
+        screen.blit(tiles[i],(tiles[i+1],tiles[i+2]))
+        i+=3
     
     if currentbox == 0:         ## generating enemies and keys for box 0
         keys.toggleBox0()
@@ -751,10 +756,7 @@ while loop:
     if currentbox == 8:         ## generating enemies and keys for box 8
         keys.toggleBox8()
 
-    i=0
-    while i<=(len(tiles)-3):
-        screen.blit(tiles[i],(tiles[i+1],tiles[i+2]))
-        i+=3
+    
     
     displayDeaths(deaths)
     keys.keyCountDisplay()
