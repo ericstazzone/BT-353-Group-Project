@@ -213,8 +213,16 @@ class Obstacles():
     coors6 = [675, 450]
     coors7 = [450, 400]
     coors8 = [500, 500]
+    coors9 = [450, 50]
+    coors10 = [600, 550]
+    coors11 = [625, 400]
+    coors12 = [700, 300]
+    coors13 = [500, 50]
+    coors14 = [150, 300]
+    coors15 = [300, 500]    
+    coors16 = [400, 500]
     movespeed = 2
-    check = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    check = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     circle0rect = Rect(coors0[0], coors0[1], 10, 10)
     circle1rect = Rect(coors1[0], coors1[1], 10, 10)
     circle2rect = Rect(coors2[0], coors2[1], 10, 10)
@@ -224,7 +232,16 @@ class Obstacles():
     circle6rect = Rect(coors6[0], coors6[1], 10, 10)
     circle7rect = Rect(coors7[0], coors7[1], 10, 10)
     circle8rect = Rect(coors8[0], coors8[1], 10, 10)
-    circlesrect=[circle0rect, circle1rect, circle2rect, circle3rect, circle4rect, circle5rect, circle6rect, circle7rect, circle8rect]
+    circle9rect = Rect(coors9[0], coors9[1], 10, 10)
+    circle10rect = Rect(coors10[0], coors10[1], 10, 10)
+    circle11rect = Rect(coors11[0], coors11[1], 10, 10)
+    circle12rect = Rect(coors12[0], coors12[1], 10, 10)
+    circle13rect = Rect(coors13[0], coors13[1], 10, 10)
+    circle14rect = Rect(coors14[0], coors14[1], 10, 10)
+    circle15rect = Rect(coors15[0], coors15[1], 10, 10)
+    circle16rect = Rect(coors16[0], coors16[1], 10, 10)
+    circlesrect=[circle0rect, circle1rect, circle2rect, circle3rect, circle4rect, circle5rect, circle6rect, circle7rect, circle8rect, 
+    circle9rect, circle10rect, circle11rect, circle12rect, circle13rect, circle14rect, circle15rect, circle16rect]
 
     def reset(self):
         self.coors0 = [250, 550]
@@ -250,6 +267,17 @@ class Obstacles():
         screen.blit(self.enemy, self.coors6)    
         screen.blit(self.enemy, self.coors7)
         screen.blit(self.enemy, self.coors8)
+    
+    def draw2(self):
+        screen.blit(self.enemy, self.coors9)
+        screen.blit(self.enemy, self.coors10)
+        screen.blit(self.enemy, self.coors11)
+        screen.blit(self.enemy, self.coors12)
+        screen.blit(self.enemy, self.coors13)
+        screen.blit(self.enemy, self.coors14)
+        screen.blit(self.enemy, self.coors15)    
+        screen.blit(self.enemy, self.coors16)
+
 
 
 class Traps():
@@ -721,6 +749,7 @@ while loop:
     
     if currentbox == 0:         ## generating enemies and keys for box 0
         keys.toggleBox0()
+        obstacles.movespeed = 2
         obstacles.movement(0, obstacles.coors0, 0, 250, 350)
         obstacles.movement(1, obstacles.coors1, 1, 50, 150)
         obstacles.movement(2, obstacles.coors2, 1, 50, 150)
@@ -733,6 +762,16 @@ while loop:
         obstacles.draw1()
 
     if currentbox == 1:         ## generating enemies and keys for box 1
+        obstacles.movespeed = 4
+        obstacles.movement(9, obstacles.coors9, 1, 50, 150)
+        obstacles.movement(10, obstacles.coors10, 0, 600, 800)
+        obstacles.movement(11, obstacles.coors11, 0, 600, 800)
+        obstacles.movement(12, obstacles.coors12, 0, 600, 900)
+        obstacles.movement(13, obstacles.coors13, 0, 500, 750)
+        obstacles.movement(14, obstacles.coors14, 1, 250, 350)
+        obstacles.movement(15, obstacles.coors15, 1, 400, 550)
+        obstacles.movement(16, obstacles.coors16, 1, 450, 550)
+        obstacles.draw2()
         keys.toggleBox1()
 
     if currentbox == 2:         ## generating enemies and keys for box 2
