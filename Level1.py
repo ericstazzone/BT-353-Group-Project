@@ -86,7 +86,7 @@ class Key():
     blackoutcoors = [0, -10]
     
     ## Key Variables
-    keys = [False, False, False, False, False, False, False, False]
+    keys = [True, True, True, True, True, True, True, True]
     keycoors0 = [350, 295]
     keycoors1 = [900, 400]
     keycoors2 = [300, 350]
@@ -221,8 +221,43 @@ class Obstacles():
     coors14 = [150, 300]
     coors15 = [300, 500]    
     coors16 = [400, 500]
+
+    coors17 = [100,600]
+    coors18 = [250,200]
+    coors19 = [400,450]
+    coors20 = [400,400]
+    coors21 = [400,350]
+    coors22 = [400,300]
+    coors23 = [400,250]
+
+    coors24 = [200,150]
+    coors25 = [200,250]
+    coors26 = [500,250]
+    coors27 = [200,350]
+    coors28 = [200,500]
+    coors29 = [100,650]
+    coors30 = [200,750]
+    coors31 = [750,200]
+    coors32 = [850,500]
+
+    coors33 = [700,500]
+    coors34 = [50, 650]
+    coors35 = [300,150]
+    coors36 = [350,150]
+    coors37 = [400,150]
+    coors38 = [450,150]
+    coors39 = [500,150]
+    coors40 = [550,150]
+
     movespeed = 2
-    check = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    check = [0, 0, 0, 0, 0, 
+             0, 0, 0, 0, 0, 
+             0, 0, 0, 0, 0, 
+             0, 0, 0, 0, 0, 
+             0, 0, 0, 0, 0, 
+             0, 0, 0, 0, 0, 
+             0, 0, 0, 0, 0, 
+             0, 0, 0, 0, 0, 0] #increase to # of objects
     circle0rect = Rect(coors0[0], coors0[1], 10, 10)
     circle1rect = Rect(coors1[0], coors1[1], 10, 10)
     circle2rect = Rect(coors2[0], coors2[1], 10, 10)
@@ -240,8 +275,42 @@ class Obstacles():
     circle14rect = Rect(coors14[0], coors14[1], 10, 10)
     circle15rect = Rect(coors15[0], coors15[1], 10, 10)
     circle16rect = Rect(coors16[0], coors16[1], 10, 10)
-    circlesrect=[circle0rect, circle1rect, circle2rect, circle3rect, circle4rect, circle5rect, circle6rect, circle7rect, circle8rect, 
-    circle9rect, circle10rect, circle11rect, circle12rect, circle13rect, circle14rect, circle15rect, circle16rect]
+    
+    circle17rect = Rect(coors17[0], coors17[1], 10, 10)
+    circle18rect = Rect(coors18[0], coors18[1], 10, 10)
+    circle19rect = Rect(coors19[0], coors19[1], 10, 10)
+    circle20rect = Rect(coors20[0], coors20[1], 10, 10)
+    circle21rect = Rect(coors21[0], coors21[1], 10, 10)
+    circle22rect = Rect(coors22[0], coors22[1], 10, 10)
+    circle23rect = Rect(coors23[0], coors23[1], 10, 10)
+
+    circle24rect = Rect(coors24[0], coors24[1], 10, 10)
+    circle25rect = Rect(coors25[0], coors25[1], 10, 10)
+    circle26rect = Rect(coors26[0], coors26[1], 10, 10)
+    circle27rect = Rect(coors27[0], coors27[1], 10, 10)
+    circle28rect = Rect(coors28[0], coors28[1], 10, 10)
+    circle29rect = Rect(coors29[0], coors29[1], 10, 10)
+    circle30rect = Rect(coors30[0], coors30[1], 10, 10)
+    circle31rect = Rect(coors31[0], coors31[1], 10, 10)
+    circle32rect = Rect(coors32[0], coors32[1], 10, 10)
+
+    circle33rect = Rect(coors33[0], coors33[1], 10, 10)
+    circle34rect = Rect(coors34[0], coors34[1], 10, 10)
+    circle35rect = Rect(coors35[0], coors35[1], 10, 10)
+    circle36rect = Rect(coors36[0], coors36[1], 10, 10)
+    circle37rect = Rect(coors37[0], coors37[1], 10, 10)
+    circle38rect = Rect(coors38[0], coors38[1], 10, 10)
+    circle39rect = Rect(coors39[0], coors39[1], 10, 10)
+    circle40rect = Rect(coors40[0], coors40[1], 10, 10)
+
+
+    
+    circlesrect= [
+    circle0rect, circle1rect, circle2rect, circle3rect, circle4rect, circle5rect, circle6rect, circle7rect, circle8rect, 
+    circle9rect, circle10rect, circle11rect, circle12rect, circle13rect, circle14rect, circle15rect, circle16rect, circle17rect,
+    circle18rect, circle19rect, circle20rect, circle21rect, circle22rect, circle23rect, circle24rect, circle25rect, circle26rect, 
+    circle27rect, circle28rect, circle29rect, circle30rect, circle31rect, circle32rect,
+    circle33rect, circle34rect, circle35rect, circle36rect, circle37rect, circle38rect, circle39rect, circle40rect]
 
     def reset(self):
         self.coors0 = [250, 550]
@@ -278,7 +347,35 @@ class Obstacles():
         screen.blit(self.enemy, self.coors15)    
         screen.blit(self.enemy, self.coors16)
 
+    def draw3(self):
+        screen.blit(self.enemy, self.coors17)
+        screen.blit(self.enemy, self.coors18)
+        screen.blit(self.enemy, self.coors19)
+        screen.blit(self.enemy, self.coors20)
+        screen.blit(self.enemy, self.coors21)
+        screen.blit(self.enemy, self.coors22)
+        screen.blit(self.enemy, self.coors23)
 
+    def draw4(self):
+        screen.blit(self.enemy, self.coors24)
+        screen.blit(self.enemy, self.coors25)
+        screen.blit(self.enemy, self.coors26)
+        screen.blit(self.enemy, self.coors27)
+        screen.blit(self.enemy, self.coors28)
+        screen.blit(self.enemy, self.coors29)
+        screen.blit(self.enemy, self.coors30)
+        screen.blit(self.enemy, self.coors31)
+        screen.blit(self.enemy, self.coors32)
+
+    def draw5(self):
+        screen.blit(self.enemy, self.coors33)
+        screen.blit(self.enemy, self.coors34)
+        screen.blit(self.enemy, self.coors35)
+        screen.blit(self.enemy, self.coors36)
+        screen.blit(self.enemy, self.coors37)
+        screen.blit(self.enemy, self.coors38)
+        screen.blit(self.enemy, self.coors39)
+        screen.blit(self.enemy, self.coors40)
 
 class Traps():
     def __init__(self,pos):
@@ -434,9 +531,6 @@ def load_box(box):                                                  #looping thr
                 tiles.append(int(corx))
                 tiles.append(int(cory))
             
-            
-
-
             if col=="T":
                 traps.append(Traps((x,y)))
             if col=="P":
@@ -453,8 +547,8 @@ def displayDeaths(deaths):
         screen.blit(text, (400, -2))
     
 pygame.init()
-backgroundsound = mixer.music.load('song1_aLtZHmr9.wav')
-mixer.music.play(-1)
+#backgroundsound = mixer.music.load('song1_aLtZHmr9.wav')
+#mixer.music.play(-1)
 
 clock = pygame.time.Clock()
 
@@ -462,7 +556,7 @@ size = 1000,750
 screen = pygame.display.set_mode(size,0,32)
 pygame.display.set_caption('The Impossible Game')
 
-currentbox=0                                                        #setting the level to 1
+currentbox=5                                                        #setting the level to 0
 boxes = [[                                                          #making the boundaries
     "DFFFCFCFCCCCCCCB DCB",
     "I   O O PNNNKKKJ LKJ",
@@ -537,12 +631,12 @@ boxes = [[                                                          #making the 
     "LKJ A            I I",
     "LKJ I            I I",
     "LNM I            I I",
-    "I   LCCCCCCCCCCCCM O",
-    "I DCKKKKKKKKKKKKJ   ",
-    "I LKKKKKKKKKKKKKJ   ",
-    "I LKKKKKKKKKKKKKJ   ",
-    "I LNNNNNNNNNNNNNM   ",
-    "I I                 ",
+    "I   LCCCCCCCCCCCCM I",
+    "I DCKKKKKKKKKKKKJ  I",
+    "I LKKKKKKKKKKKKKJ  I",
+    "I LKKKKKKKKKKKKKJ  I",
+    "I LNNNNNNNNNNNNNM  I",
+    "I I                I",
     "I I DCCCCCCCCCCB DCB",
     "I O QNNNNNNNKKKJ LKJ",
     "I           LKKJ LKJ",
@@ -775,12 +869,49 @@ while loop:
         keys.toggleBox1()
 
     if currentbox == 2:         ## generating enemies and keys for box 2
+        obstacles.movespeed = 4
+        obstacles.movement(17, obstacles.coors17, 0, 50, 250)
+        obstacles.movement(18, obstacles.coors18, 0, 250, 800)
+        obstacles.movement(19, obstacles.coors19, 0, 400, 800)
+        obstacles.movespeed = 6
+        obstacles.movement(20, obstacles.coors20, 0, 400, 800)
+        obstacles.movespeed = 8
+        obstacles.movement(21, obstacles.coors21, 0, 400, 800)
+        obstacles.movespeed = 10
+        obstacles.movement(22, obstacles.coors22, 0, 400, 800)
+        obstacles.movespeed = 12
+        obstacles.movement(23, obstacles.coors23, 0, 400, 800)
+        obstacles.draw3()
         keys.toggleBox2()
 
     if currentbox == 3:         ## generating enemies and keys for box 3
+        obstacles.movespeed = 4
+        obstacles.movement(24, obstacles.coors24, 0, 150, 450)
+        obstacles.movement(25, obstacles.coors25, 0, 150, 300)
+        obstacles.movement(26, obstacles.coors26, 0, 400, 550)
+        obstacles.movement(27, obstacles.coors27, 0, 150, 250)
+        obstacles.movement(28, obstacles.coors28, 0, 150, 250)
+        obstacles.movement(29, obstacles.coors29, 0, 50, 300)
+        obstacles.movement(30, obstacles.coors30, 0, 400, 800)
+        obstacles.movement(31, obstacles.coors31, 0, 700, 800)
+        obstacles.movement(32, obstacles.coors32, 0, 850, 800)
+        obstacles.draw4()
         keys.toggleBox3()
 
     if currentbox == 4:         ## generating enemies and keys for box 4
+        obstacles.movespeed = 4
+        obstacles.movement(33, obstacles.coors33, 0, 700, 900)
+        obstacles.movement(34, obstacles.coors34, 0, 50, 250)
+        obstacles.movespeed = 8
+        obstacles.movement(35, obstacles.coors35, 0, 250, 800)
+        obstacles.movement(36, obstacles.coors36, 0, 250, 800)
+        obstacles.movespeed = 16
+        obstacles.movement(37, obstacles.coors37, 0, 250, 800)
+        obstacles.movement(38, obstacles.coors38, 0, 250, 800)
+        obstacles.movespeed = 32
+        obstacles.movement(39, obstacles.coors39, 0, 250, 800)
+        obstacles.movement(40, obstacles.coors40, 0, 250, 800)
+        obstacles.draw5()
         keys.toggleBox4()
 
     if currentbox == 5:         ## generating enemies and keys for box 5
