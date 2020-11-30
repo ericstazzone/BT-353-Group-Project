@@ -9,26 +9,45 @@ class Player():
         image1 = pygame.image.load('images/square1.png')
         image2 = pygame.image.load('images/square2.png')
         image3 = pygame.image.load('images/square3.png')
+        image4 = pygame.transform.flip(image1, True, False)
+        image5 = pygame.transform.flip(image2, True, False)
+        image6 = pygame.transform.flip(image3, True, False)
         self.images.append(image1)
         self.images.append(image2)
         self.images.append(image3)
+        self.images.append(image4)
+        self.images.append(image5)
+        self.images.append(image6)
         self.index = 0
         self.image = self.images[self.index]
         self.x = pos[0]
         self.y = pos[1]
         self.counter = 0
+        self.counterL = 3
+        self.counterR = 0
+        self.truth = True
 
-    def update(self):
-        self.index += 1
+    def updateR(self):
+        self.index+=1
         if self.index >= 4:
-            self.counter += 1
+            self.counterR += 1
             self.index = 0
-        if self.counter >= len(self.images):
+        if self.counterR > 2:
             self.index = 0
-            self.counter = 0
-        self.image = self.images[self.counter]
+            self.counterR = 0
+        self.image = self.images[self.counterR]
         self.image = pygame.transform.scale(self.image, (40, 40))
-        
+    def updateL(self):
+        self.index+=1 
+        if self.index >= 4:
+            self.counterL += 1
+            self.index = 0
+        if self.counterL >= len(self.images):
+            self.index = 0
+            self.counterL = 3
+        self.image = self.images[self.counterL]
+        self.image = pygame.transform.scale(self.image, (40, 40))
+
     def movex(self, n):
         if not self.wallCollide(n, 0):
             self.x += n
@@ -86,7 +105,7 @@ class Key():
     blackoutcoors = [0, -10]
     
     ## Key Variables
-    keys = [True, True, True, True, True, True, True, False]
+    keys = [True, True, True, True, True, True, True, True]
     keycoors0 = [350, 295]
     keycoors1 = [900, 400]
     keycoors2 = [300, 350]
@@ -203,6 +222,7 @@ class Obstacles():
     ## Enemies
     enemy = pygame.image.load('images/circle1.png') 
     enemy = pygame.transform.scale(enemy, (50,50))
+    
  
     coors0 = [250, 550]
     coors1 = [250, 50]
@@ -505,7 +525,7 @@ class Traps():
 
     def update(self):
         self.index += 1
-        if self.index >= 13:
+        if self.index >= 9:
             self.counter += 1
             self.index = 0
         if self.counter >= len(self.images):
@@ -649,11 +669,11 @@ pygame.init()
 
 clock = pygame.time.Clock()
 
-size = 1000,750
+size = 997,748
 screen = pygame.display.set_mode(size,0,32)
 pygame.display.set_caption('The Impossible Game')
 
-currentbox=8                                                        #setting the level to 0
+currentbox=0                                                       #setting the level to 0
 boxes = [[                                                          #making the boundaries
     "DFFFCFCFCCCCCCCB DCB",
     "I   O O PNNNKKKJ LKJ",
@@ -668,20 +688,20 @@ boxes = [[                                                          #making the 
     "I M  O QJ   LCCB DKJ",
     "I   A   LB DKKKM QKJ",
     "I   LE HNM QNNM   QM",
-    "I P I               ",
+    "I P I             T ",
     "QFFFNFFFFFFFFFFFFFFF", 
     ],
     [
     "DCB HFFFFFFFFFFFCCCB",
     "LKJ             LKKJ",
-    "LNNFFFFFE HE  DCKKKJ",
-    "I            DNNNNNJ",
+    "LNNFFFFFETTG  DCKKKJ",
+    "I        T   DNNNNNJ",
     "I DFCCCFFFCCCJ     I",
-    "I O QNM   QKNM HFE I",
-    "I       A  I       I",
+    "I O QNM   QKNM HFETI",
+    "I       A  I     T I",
     "LCB HFFCKB I  G  A I",
     "LNNE   QNM I     I I",
-    "I    A     I HCE LCJ",
+    "I    A TT  I HCE LCJ",
     "I G DJ G DCJ  O  LKJ",
     "I   LJ   LKJ     LKJ",
     "I HCNNFFFNNM  G  LKJ",
@@ -694,38 +714,38 @@ boxes = [[                                                          #making the 
     "LKKKKKKKKKKKKKKKKKKJ",
     "LKKNNNNNNNNNNNNNNKKJ",
     "LKJ T            LKJ",
-    "LKJ DCCB         LKJ",
-    "LKJ QNNJ         LKJ",
-    "LKJ    I         LKJ",
-    "LKKFFFFM         LKJ",
+    "LKJ DCCBT        LKJ",
+    "LKJ QNNJTT       LKJ",
+    "LKJ    ITTT      LKJ",
+    "LKKFFFFMT        LKJ",
     "LKJ              LKJ",
     "LKM HCCCB       DKKJ",
     "LM   QKKKB     DKKKJ",
-    "I     LKKKB   HNNNNM",
-    "LB   DKKKKKB        ",
+    "I T T LKKKB   HNNNNM",
+    "LB   DKKKKKB      T ",
     "QNEPHNNNNNNNFFFFFFFE",
     ],
     [
     "DCCCCCCCCCCCCCCFFFFE",
     "LKKKKKKKKKKKKKJ     ",
     "LKKNNNNNNNNNKKJ DCCB",
-    "LKJ       T LKM QKKJ",
+    "LKJ    T    LKM QKKJ",
     "LKJ    A    LJ   LKJ",
     "LKJ    I    LKB HKKJ",
     "LKJ    I    LKJ  LKJ",
     "LKJ   DKB   LKKB LKJ",
-    "LKJ   LKJ   LKKJ QNJ",
-    "LKJ   LKJ   LKKJ   I",
+    "LKJ T LKJ   LKKJ QNJ",
+    "LKJ T LKJ   LKKJ   I",
     "LKJ   QKM   LKKJ   I",
     "LKJ    I    LKKJ   I",
     "QNM    I    LKKKCB I",
-    "P      I    LKKKKJ I",
+    "PT     I    LKKKKJ I",
     "HFFFFFFNFFFFNNNNNM O",
     ],
     [
     "DCCFFFFFFFFFFFFFFB A",
-    "LKJ        T     I I",
-    "LKJ A            I I",
+    "LKJ T            I I",
+    "LKJ ATTTTTTTTTTTTI I",
     "LKJ I            I I",
     "LNM I            I I",
     "I   LCCCCCCCCCCCCM I",
@@ -733,24 +753,24 @@ boxes = [[                                                          #making the 
     "I LKKKKKKKKKKKKKJ  I",
     "I LKKKKKKKKKKKKKJ  I",
     "I LNNNNNNNNNNNNNM  I",
-    "I I                I",
-    "I I DCCCCCCCCCCB DCB",
+    "I I             T  I",
+    "I ITDCCCCCCCCCCB DCB",
     "I O QNNNNNNNKKKJ LKJ",
     "I           LKKJ LKJ",
     "QFFFFFFFFFFFNNNMPQNM",
     ],
     [
     "WWWWWWWWWWWWWWWW WWW",
-    "W WWWWWWWWWWWWWW WWW",
+    "W WWWWWWWWWWWWWWTWWW",
     "W WWWWWWWWWWWWWW WWW",
     "W T   WWWWWWWW     W",
-    "WWW WWWWWWWWWWWW WWW",
-    "WW   WW      WW   WW",
-    "WWW WWW  WW  WWW WWW",
+    "WWWTWWWWWWWWWWWW WWW",
+    "WW   WW  TT  WW   WW",
+    "WWWTWWW  WW  WWW WWW",
     "WW   WW  WW  WW   WW",
-    "WWW WWW  WW  WWW WWW",
+    "WWWTWWW  WW  WWW WWW",
     "WW   WW  WW  WW   WW",
-    "WWW WW  WWWW  WW WWW",
+    "WWWTWW  WWWW  WW WWW",
     "WWW W  WWWWWW  W WWW",
     "WWW   WWWWWWWW   WWW",
     "P    WWWWWWWWWW  WWW",
@@ -760,33 +780,33 @@ boxes = [[                                                          #making the 
     "WWWWWWWWWWWWWWWWWWWW",
     "P  WWWWWWWWWWWWWWWWW",
     "WW W W W W W W WWWWW",
-    "WW    T            W",
+    "WW T   T   T   T   W",
     "WWWW W W W W W WWW W",
     "WWWWWWWWWWWWWWWWWW W",
     "W                  W",
-    "W WWWWWWWWWWWWWWWWWW",
+    "WTWWWWWWWWWWWWWWWWWW",
     "W                  W",
     "W WWWWWWWWWWWWWWWW W",
     "W WWWWWWWWWWWWWWWW W",
     "W WWWWWWWWWWWWWWWW W",
     "W WWWWWWWWWWWWWWWW W",
-    "W                W W",
+    "WT               WTW",
     "WWWWWWWWWWWWWWWWWW W",
     ],
     [
     "WWWWWWWWWWWWWWWWWWPW",
     "WWWWWWWWWWWWWWWWWW W",
     "WWWWWWWWWWWWWWWWWW W",
-    "W  T               W",
+    "W   T              W",
     "W   WWWWWWWWWWWW   W",
     "W   WWWWWWWWWWWW   W",
     "W   WWWWWWWWWWWW   W",
-    "WWW W      W       W",
-    "WWW WW     W       W",
-    "WWW WWW    W       W",
-    "WWW WWWW   W       W",
-    "WWW WWWWW  W       W",
-    "WWW WWWWWW W       W",
+    "WWWTW T    W       W",
+    "WWW WWT    W       W",
+    "WWW WWWT   W       W",
+    "WWW WWWWT  W T     W",
+    "WWW WWWWWT W T     W",
+    "WWW WWWWWWTW T     W",
     "WWW WWWWWW   WWWWWWW",
     "WWW WWWWWWWWWWWWWWWW",
     ],
@@ -931,7 +951,27 @@ while loop:
         t.update()
 
     player.draw()
-    player.update()
+    key = pygame.key.get_pressed()
+    
+    if key[pygame.K_w] or key[pygame.K_UP]:
+        player.movey(-10)
+    elif key[pygame.K_a] or key[pygame.K_LEFT]: 
+        player.movex(-10)
+    if key[pygame.K_s] or key[pygame.K_DOWN]: 
+        player.movey(10)
+    elif key[pygame.K_d] or key[pygame.K_RIGHT]: 
+        player.movex(10)
+
+    if key[pygame.K_a] or key[pygame.K_LEFT]:
+        player.truth = False
+
+    if key[pygame.K_d] or key[pygame.K_RIGHT]:
+        player.truth = True
+    
+    if player.truth == False:
+        player.updateL()
+    elif player.truth == True:
+        player.updateR()
 
     i=0
     while i<=(len(tiles)-3):
@@ -1070,16 +1110,6 @@ while loop:
         if event.type == KEYUP and event.key == K_p:
             pause = True
     
-    key = pygame.key.get_pressed()
-    
-    if key[pygame.K_w] or key[pygame.K_UP]:
-        player.movey(-10)
-    elif key[pygame.K_a] or key[pygame.K_LEFT]: 
-        player.movex(-10)
-    if key[pygame.K_s] or key[pygame.K_DOWN]: 
-        player.movey(10)
-    elif key[pygame.K_d] or key[pygame.K_RIGHT]: 
-        player.movex(10)
     pygame.display.flip()                                           #refresh display
     clock.tick(30)                                                 #fps
 
