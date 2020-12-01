@@ -295,6 +295,18 @@ class Obstacles():
     coors62 = [350,450]
     coors63 = [450,500]
     coors64 = [500,550]
+    
+    coors66 = [250, 350] ## vertical
+    coors67 = [350, 450]
+    coors68 = [450, 550]
+    coors73 = [550, 350]
+    coors74 = [650, 450]
+    coors75 = [750, 550]
+    coors65 = [200, 150] ## horizontal
+    coors69 = [300, 250]
+    coors70 = [400, 350]
+    coors71 = [500, 450]
+    coors72 = [600, 550]
 
     movespeed = 2
     check = [0, 0, 0, 0, 0, 
@@ -309,7 +321,9 @@ class Obstacles():
              0, 0, 0, 0, 0,
              0, 0, 0, 0, 0,
              0, 0, 0, 0, 0,
-             0, 0, 0, 0, 0] #increase to # of objects
+             0, 0, 0, 0, 0,
+             0, 0, 0, 0, 0,
+             0, 0, 0, 0, 0, 0] #increase to # of objects
 
     circle0rect = Rect(coors0[0], coors0[1], 10, 10)
     circle1rect = Rect(coors1[0], coors1[1], 10, 10)
@@ -382,6 +396,18 @@ class Obstacles():
     circle62rect = Rect(coors62[0], coors62[1], 10, 10)
     circle63rect = Rect(coors63[0], coors63[1], 10, 10)
     circle64rect = Rect(coors64[0], coors64[1], 10, 10)
+
+    circle65rect = Rect(coors65[0], coors65[1], 10, 10)
+    circle66rect = Rect(coors66[0], coors66[1], 10, 10)
+    circle67rect = Rect(coors67[0], coors67[1], 10, 10)
+    circle68rect = Rect(coors68[0], coors68[1], 10, 10)
+    circle69rect = Rect(coors69[0], coors69[1], 10, 10)
+    circle70rect = Rect(coors70[0], coors70[1], 10, 10)
+    circle71rect = Rect(coors71[0], coors71[1], 10, 10)
+    circle72rect = Rect(coors72[0], coors72[1], 10, 10)
+    circle73rect = Rect(coors73[0], coors73[1], 10, 10)
+    circle74rect = Rect(coors74[0], coors74[1], 10, 10)
+    circle75rect = Rect(coors75[0], coors75[1], 10, 10)
 
     
     circlesrect= [
@@ -488,6 +514,19 @@ class Obstacles():
         screen.blit(self.enemy, self.coors62)
         screen.blit(self.enemy, self.coors63)
         screen.blit(self.enemy, self.coors64)
+
+    def draw9(self):
+        screen.blit(self.enemy, self.coors65)
+        screen.blit(self.enemy, self.coors66)
+        screen.blit(self.enemy, self.coors67)
+        screen.blit(self.enemy, self.coors68)
+        screen.blit(self.enemy, self.coors69)
+        screen.blit(self.enemy, self.coors70)
+        screen.blit(self.enemy, self.coors71)
+        screen.blit(self.enemy, self.coors72)
+        screen.blit(self.enemy, self.coors73)
+        screen.blit(self.enemy, self.coors74)
+        screen.blit(self.enemy, self.coors75)
 
 class Traps():
     def __init__(self,pos):
@@ -814,15 +853,15 @@ boxes = [[                                                          #making the 
     "WWWPWWWWWWWWWWWWWWWW",
     "WWW WWWWWWWWWWWWWWWW",
     "WWW WWWWWWWWWWWWWWWW",
-    "WWW              WWW",
-    "WWW              WWW",
-    "WWW       T      WWW",
-    "WWW              WWW",
-    "WWW                 ",
-    "WWW              WWW",
-    "WWW              WWW",
-    "WWW              WWW",
-    "WWW              WWW",
+    "WWW   T     T    WWW",
+    "WWWT     T     T WWW",
+    "WWW   T     T    WWW",
+    "WWWT     T     T WWW",
+    "WWW   T     T    T  ",
+    "WWWT     T     T WWW",
+    "WWW   T     T    WWW",
+    "WWWT     T     T WWW",
+    "WWW   T     T    WWW",
     "WWWWWWWWWWWWWWWWWWWW",
     "WWWWWWWWWWWWWWWWWWWW",
     "WWWWWWWWWWWWWWWWWWWW",
@@ -980,7 +1019,7 @@ while loop:
     
     if currentbox == 0:         ## generating enemies and keys for box 0
         keys.toggleBox0()
-        obstacles.movespeed = 2
+        obstacles.movespeed = 3
         obstacles.movement(0, obstacles.coors0, 0, 250, 350)
         obstacles.movement(1, obstacles.coors1, 1, 50, 150)
         obstacles.movement(2, obstacles.coors2, 1, 50, 150)
@@ -993,7 +1032,7 @@ while loop:
         obstacles.draw1()
 
     if currentbox == 1:         ## generating enemies and keys for box 1
-        obstacles.movespeed = 4
+        obstacles.movespeed = 5
         obstacles.movement(9, obstacles.coors9, 1, 50, 150)
         obstacles.movement(10, obstacles.coors10, 0, 600, 800)
         obstacles.movement(11, obstacles.coors11, 0, 600, 800)
@@ -1095,6 +1134,19 @@ while loop:
         keys.toggleBox7()
 
     if currentbox == 8:         ## generating enemies and keys for box 8
+        obstacles.movespeed = 12
+        obstacles.movement(66, obstacles.coors66, 1, 150, 550)
+        obstacles.movement(67, obstacles.coors67, 1, 150, 550)
+        obstacles.movement(68, obstacles.coors68, 1, 150, 550)
+        obstacles.movement(73, obstacles.coors73, 1, 150, 550)
+        obstacles.movement(74, obstacles.coors74, 1, 150, 550)
+        obstacles.movement(75, obstacles.coors75, 1, 150, 550)
+        obstacles.movement(65, obstacles.coors65, 0, 165, 780)
+        obstacles.movement(69, obstacles.coors69, 0, 165, 780)
+        obstacles.movement(70, obstacles.coors70, 0, 165, 780)
+        obstacles.movement(71, obstacles.coors71, 0, 165, 780)
+        obstacles.movement(72, obstacles.coors72, 0, 165, 780)
+        obstacles.draw9()
         keys.toggleBox8()
     
     displayDeaths(deaths)
