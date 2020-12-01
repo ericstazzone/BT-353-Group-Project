@@ -66,10 +66,6 @@ class Player():
     def wallCollide(self, xsteps, ysteps):
         r = Rect(self.x+xsteps, self.y+ysteps, 40, 40)
         return r.collidelist(walls) != -1
-
-    def obstacleCollide(self,rectlist):
-        r = Rect(self.x, self.y,25, 25)
-        return r.collidelist(rectlist) != -1
     
     def trapped(self, traps):
         r = Rect(self.x, self.y, 30, 30)
@@ -418,17 +414,48 @@ class Obstacles():
     circle33rect, circle34rect, circle35rect, circle36rect, circle37rect, circle38rect, circle39rect, circle40rect,
     circle41rect, circle42rect, circle43rect, circle44rect, circle45rect, circle46rect, circle47rect, circle48rect, circle49rect,
     circle50rect, circle51rect, circle52rect, circle53rect, circle54rect, circle55rect, circle56rect,
-    circle57rect, circle58rect, circle59rect, circle60rect, circle61rect, circle62rect, circle63rect, circle64rect]
+    circle57rect, circle58rect, circle59rect, circle60rect, circle61rect, circle62rect, circle63rect, circle64rect, circle65rect,
+    circle66rect, circle67rect, circle68rect, circle69rect, circle70rect, circle71rect, circle72rect, circle73rect, circle74rect, 
+    circle75rect]
 
-    def reset(self):
-        self.coors0 = [250, 550]
-        self.check = [0]
+    def collide(self, player, box):
+        r = Rect(player.x, player.y, 30, 30)
+        enemyList = []
+        if box == 0:
+            enemyList = self.circlesrect[:9]
+        elif box == 1:
+            enemyList = self.circlesrect[9:17]
+        elif box == 2:
+            enemyList = self.circlesrect[17:24]
+        elif box == 3:
+            enemyList = self.circlesrect[24, 33]
+        elif box == 4:
+            enemyList = self.circlesrect[33: 41]
+        elif box == 5:
+            enemyList = self.circlesrect[41:50]
+        elif box == 6:
+            enemyList = self.circlesrect[50:57]
+        elif box == 7:
+            enemyList = self.circlesrect[57:65]
+        elif box == 8:
+            enemyList = self.circlesrect[65:75]
+        return r.collidelist(enemyList) != -1
 
     def movement(self, enemy, enemycoors, direction, min, max):
+        r = self.circlesrect[enemy]
         if self.check[enemy] == 1: ## moving right
             enemycoors[direction] += self.movespeed
+            if direction == 0:
+                self.circlesrect[enemy] = Rect(r.left + self.movespeed, r.top, 10, 10)
+            else:
+                self.circlesrect[enemy] = Rect(r.left, r.top + self.movespeed, 10, 10)
+
         else: ## moving left
             enemycoors[direction] -= self.movespeed
+            if direction == 0:
+                self.circlesrect[enemy] = Rect(r.left - self.movespeed, r.top, 10, 10)
+            else:
+                self.circlesrect[enemy] = Rect(r.left, r.top - self.movespeed, 10, 10)
         if enemycoors[direction] > max: ## how far right the sprite goes
             self.check[enemy] = 0
         if enemycoors[direction] < min: ## how far left the sprite goes
@@ -1159,7 +1186,7 @@ while loop:
 
     keys.obtainKey(player.x, player.y, currentbox)
 
-    died = player.trapped(trap)
+    died = player.trapped(trap) or obstacles.collide(player, currentbox)
 
     for event in pygame.event.get():
         if event.type==QUIT:
