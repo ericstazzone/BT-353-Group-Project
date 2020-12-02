@@ -15,6 +15,9 @@ class Player():
         image7 = pygame.image.load('images/squarehappy1.png')
         image8 = pygame.image.load('images/squarehappy2.png')
         image9 = pygame.image.load('images/squarehappy3.png')
+        image10 = pygame.image.load('images/squarehappy3.png')
+        image11 = pygame.image.load('images/squarehappy3.png')
+        image12 =  pygame.image.load('images/squarehappy3.png')
         self.images.append(image1)
         self.images.append(image2)
         self.images.append(image3)
@@ -24,6 +27,9 @@ class Player():
         self.images.append(image7)
         self.images.append(image8)
         self.images.append(image9)
+        self.images.append(image10)
+        self.images.append(image11)
+        self.images.append(image12)
         self.index = 0
         self.image = self.images[self.index]
         self.x = pos[0]
@@ -32,6 +38,7 @@ class Player():
         self.counterL = 3
         self.counterR = 0
         self.counterK = 6
+        self.counterD = 9
         self.truth = True
 
     def updateR(self):
@@ -58,13 +65,24 @@ class Player():
 
     def updateK(self):
         self.index+=1 
-        if self.index >= 8:
+        if self.index >= 4:
             self.counterK += 1
             self.index = 0
         if self.counterK >= 9:
             self.index = 0
             self.counterK = 6
         self.image = self.images[self.counterK]
+        self.image = pygame.transform.scale(self.image, (40, 40))
+
+    def updateD(self):
+        self.index+=1 
+        if self.index >= 4:
+            self.counterD += 1
+            self.index = 0
+        if self.counterD >= 9:
+            self.index = 0
+            self.counterD = 6
+        self.image = self.images[self.counterD]
         self.image = pygame.transform.scale(self.image, (40, 40))
 
     def movex(self, n):
@@ -120,7 +138,7 @@ class Key():
     blackoutcoors = [0, -10]
     
     ## Key Variables
-    keys = [True, True, True, True, True, True, True, True]
+    keys = [False, True, True, True, True, True, True, True]
     keycoors0 = [350, 295]
     keycoors1 = [900, 400]
     keycoors2 = [300, 350]
@@ -202,18 +220,25 @@ class Key():
             self.keyTruth = True
         if temp.colliderect(self.keysrect[1]) == 1 and currentbox == 1:
             self.keys[1] = True
+            self.keyTruth = True
         if temp.colliderect(self.keysrect[2]) == 1 and currentbox == 2:
             self.keys[2] = True
+            self.keyTruth = True
         if temp.colliderect(self.keysrect[3]) == 1 and currentbox == 3:
             self.keys[3] = True
+            self.keyTruth = True
         if temp.colliderect(self.keysrect[4]) == 1 and currentbox == 4:
-            self.keys[4] = True        
+            self.keys[4] = True  
+            self.keyTruth = True      
         if temp.colliderect(self.keysrect[5]) == 1 and currentbox == 5:
             self.keys[5] = True
+            self.keyTruth = True
         if temp.colliderect(self.keysrect[6]) == 1 and currentbox == 6:
             self.keys[6] = True
+            self.keyTruth = True
         if temp.colliderect(self.keysrect[7]) == 1 and currentbox == 7:
             self.keys[7] = True
+            self.keyTruth = True
 
     def keysCollected(self):
         count = 0
@@ -764,7 +789,7 @@ size = 997,748
 screen = pygame.display.set_mode(size,0,32)
 pygame.display.set_caption('The Impossible Game')
 
-currentbox=5                                                 #setting the level to 0
+currentbox=0                                                #setting the level to 0
 boxes = [[                                                          #making the boundaries
     "DFFFCFCFFCCCCCCB DCB",
     "I   O O  QNNKKKJ LKJ",
@@ -772,11 +797,11 @@ boxes = [[                                                          #making the 
     "I   A A DCB LJ  T  I",
     "LFE LCKFNNM LKCE HFJ",
     "I   LKJ   T LKJ    I",
-    "I HFKKJ DKCCKKNFE HJ",
+    "I HFKKJ DCCCKKNFE HJ",
     "I   QNNFNNNNKJ     I",
-    "I B         LNE HFCJ",
-    "I J  A DB G I     LJ",
-    "I M  O QJ   LCCB DKJ",
+    "I A         LNE HFCJ",
+    "I I  A DB G I     LJ",
+    "I O  O QJ   LCCB DKJ",
     "I   A   LB DKKKM QKJ",
     "I   LE HNM QNNM   QM",
     "I P I             T ",
@@ -1206,10 +1231,13 @@ while loop:
 
     keys.obtainKey(player.x, player.y, currentbox)
     if keys.keyTruth == True:
-        player.updateK
+        player.updateK()
         keys.keyTruth = False
 
     died = player.trapped(trap) or obstacles.collide(player, currentbox)
+
+    if died == True:
+        player.updateD()
 
     for event in pygame.event.get():
         if event.type==QUIT:
