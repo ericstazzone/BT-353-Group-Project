@@ -12,12 +12,18 @@ class Player():
         image4 = pygame.transform.flip(image1, True, False)
         image5 = pygame.transform.flip(image2, True, False)
         image6 = pygame.transform.flip(image3, True, False)
+        image7 = pygame.image.load('images/squarehappy1.png')
+        image8 = pygame.image.load('images/squarehappy2.png')
+        image9 = pygame.image.load('images/squarehappy3.png')
         self.images.append(image1)
         self.images.append(image2)
         self.images.append(image3)
         self.images.append(image4)
         self.images.append(image5)
         self.images.append(image6)
+        self.images.append(image7)
+        self.images.append(image8)
+        self.images.append(image9)
         self.index = 0
         self.image = self.images[self.index]
         self.x = pos[0]
@@ -25,6 +31,7 @@ class Player():
         self.counter = 0
         self.counterL = 3
         self.counterR = 0
+        self.counterK = 6
         self.truth = True
 
     def updateR(self):
@@ -37,15 +44,27 @@ class Player():
             self.counterR = 0
         self.image = self.images[self.counterR]
         self.image = pygame.transform.scale(self.image, (40, 40))
+
     def updateL(self):
         self.index+=1 
         if self.index >= 4:
             self.counterL += 1
             self.index = 0
-        if self.counterL >= len(self.images):
+        if self.counterL >= 5:
             self.index = 0
             self.counterL = 3
         self.image = self.images[self.counterL]
+        self.image = pygame.transform.scale(self.image, (40, 40))\
+
+    def updateK(self):
+        self.index+=1 
+        if self.index >= 8:
+            self.counterK += 1
+            self.index = 0
+        if self.counterK >= 9:
+            self.index = 0
+            self.counterK = 6
+        self.image = self.images[self.counterK]
         self.image = pygame.transform.scale(self.image, (40, 40))
 
     def movex(self, n):
@@ -97,7 +116,7 @@ class Key():
     blackout = pygame.transform.scale(blackout, (1050,800))
     key = pygame.image.load('images/key1.png')
     key = pygame.transform.scale(key, (50, 50))
-
+    keyTruth = False
     blackoutcoors = [0, -10]
     
     ## Key Variables
@@ -180,6 +199,7 @@ class Key():
         temp = Rect(playerx, playery, 20, 20)
         if temp.colliderect(self.keysrect[0]) == 1 and currentbox == 0:
             self.keys[0] = True
+            self.keyTruth = True
         if temp.colliderect(self.keysrect[1]) == 1 and currentbox == 1:
             self.keys[1] = True
         if temp.colliderect(self.keysrect[2]) == 1 and currentbox == 2:
@@ -206,10 +226,10 @@ class Key():
         count = self.keysCollected()
         image = pygame.image.load('images/key1.png')
         image = pygame.transform.scale(image, (40, 40))
-        screen.blit(image, (945, 50))
-        font = pygame.font.SysFont('Comic Sans MS', 25)
-        text = font.render(str(count), True, (255, 255, 255))
-        screen.blit(text, (981, 50))
+        screen.blit(image, (200, 0))
+        font = pygame.font.SysFont('Garamond', 35)
+        text = font.render(str(count), True, (255, 204, 1))
+        screen.blit(text, (240, -2))
 
 ## Obstacles
 class Obstacles():
@@ -428,7 +448,7 @@ class Obstacles():
         elif box == 2:
             enemyList = self.circlesrect[17:24]
         elif box == 3:
-            enemyList = self.circlesrect[24, 33]
+            enemyList = self.circlesrect[24:33]
         elif box == 4:
             enemyList = self.circlesrect[33: 41]
         elif box == 5:
@@ -730,9 +750,9 @@ def load_box(box):                                                  #looping thr
              
 
 def displayDeaths(deaths):
-        font = pygame.font.SysFont('Comic Sans MS', 35)
-        text = font.render('Deaths: ' + str(deaths), True, (255, 0, 0))
-        screen.blit(text, (400, -2))
+        font = pygame.font.SysFont('Garamond', 35)
+        text = font.render('Deaths: ' + str(deaths), True, (149, 33, 33))
+        screen.blit(text, (50, -2))
     
 pygame.init()
 #backgroundsound = mixer.music.load('song1_aLtZHmr9.wav')
@@ -744,10 +764,10 @@ size = 997,748
 screen = pygame.display.set_mode(size,0,32)
 pygame.display.set_caption('The Impossible Game')
 
-currentbox=0                                                       #setting the level to 0
+currentbox=5                                                 #setting the level to 0
 boxes = [[                                                          #making the boundaries
-    "DFFFCFCFCCCCCCCB DCB",
-    "I   O O PNNNKKKJ LKJ",
+    "DFFFCFCFFCCCCCCB DCB",
+    "I   O O  QNNKKKJ LKJ",
     "I           LKNM QNJ",
     "I   A A DCB LJ  T  I",
     "LFE LCKFNNM LKCE HFJ",
@@ -825,7 +845,7 @@ boxes = [[                                                          #making the 
     "I LKKKKKKKKKKKKKJ  I",
     "I LNNNNNNNNNNNNNM  I",
     "I I             T  I",
-    "I ITDCCCCCCCCCCB DCB",
+    "I ITDCCCCCCCCCCB DCK",
     "I O QNNNNNNNKKKJ LKJ",
     "I           LKKJ LKJ",
     "QFFFFFFFFFFFNNNMPQNM",
@@ -1185,6 +1205,9 @@ while loop:
     keys.keyCountDisplay()
 
     keys.obtainKey(player.x, player.y, currentbox)
+    if keys.keyTruth == True:
+        player.updateK
+        keys.keyTruth = False
 
     died = player.trapped(trap) or obstacles.collide(player, currentbox)
 
