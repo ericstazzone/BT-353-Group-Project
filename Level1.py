@@ -46,6 +46,7 @@ class Player():
         self.truth = True
         self.death = False
 
+
     def updateR(self):
         self.index+=1
         if self.index >= 4:
@@ -66,7 +67,7 @@ class Player():
             self.index = 0
             self.counterL = 3
         self.image = self.images[self.counterL]
-        self.image = pygame.transform.scale(self.image, (40, 40))\
+        self.image = pygame.transform.scale(self.image, (40, 40))
 
     def updateK(self):
         self.index+=1 
@@ -80,10 +81,14 @@ class Player():
         self.image = pygame.transform.scale(self.image, (40, 40))
 
     def updateD(self):
-        self.image = self.images[9]
         self.index+=1
-        if self.index > 30:
-            self.death = True
+        if self.index >=4:
+            self.counterD += 1
+            self.index = 0
+        if self.counterD > 13:
+            self.index = 0
+            self.counterD = 9
+        self.image = self.images[self.counterD]
         self.image = pygame.transform.scale(self.image, (40, 40))
 
     def movex(self, n):
@@ -217,6 +222,7 @@ class Key():
     def obtainKey(self, playerx, playery, currentbox):
         temp = Rect(playerx, playery, 20, 20)
         if temp.colliderect(self.keysrect[0]) == 1 and currentbox == 0:
+            self.keyTruth = True
             self.keys[0] = True
         if temp.colliderect(self.keysrect[1]) == 1 and currentbox == 1:
             self.keys[1] = True
@@ -960,6 +966,9 @@ while loop:
         died = False
         deaths += 1
         currentbox = 0
+        player.updateD()
+        screen.fill(Color("black")) 
+        pygame.time.delay(100)
         walls,player,trap,tiles=load_box(currentbox)
     
     screen.fill(Color("white"))                                     #making the background white
