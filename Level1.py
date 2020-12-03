@@ -218,7 +218,6 @@ class Key():
         temp = Rect(playerx, playery, 20, 20)
         if temp.colliderect(self.keysrect[0]) == 1 and currentbox == 0:
             self.keys[0] = True
-            self.keyTruth = True
         if temp.colliderect(self.keysrect[1]) == 1 and currentbox == 1:
             self.keys[1] = True
             self.keyTruth = True
@@ -961,10 +960,7 @@ while loop:
         died = False
         deaths += 1
         currentbox = 0
-        player.updateD()
-        if player.death == True:
-            walls,player,trap,tiles=load_box(currentbox)
-            player.death == Falsedaaaaaaaaaaaaaaaaa
+        walls,player,trap,tiles=load_box(currentbox)
     
     screen.fill(Color("white"))                                     #making the background white
 
