@@ -1,4 +1,4 @@
-import pygame, sys
+import pygame, sys, time
 from pygame.locals import *
 from pygame import mixer
 
@@ -957,7 +957,10 @@ obstacles = Obstacles()
 died = False
 loop = True                                                         #running the game
 pause = False
+start = True
+
 while loop:
+
     while pause:
         for event in pygame.event.get():
             if event.type == KEYUP and event.key == K_p:
@@ -1245,11 +1248,18 @@ while loop:
 
     died = player.trapped(trap) or obstacles.collide(player, currentbox)
 
+    if start:
+        instructions = pygame.image.load('images/instructions.png')
+        instructions = pygame.transform.scale(instructions, (800,600))
+        screen.blit(instructions, [100,50])
+    
     for event in pygame.event.get():
         if event.type==QUIT:
             loop = False
         if event.type == KEYUP and event.key == K_p:
             pause = True
+        if event.type == KEYUP and event.key == K_RETURN:
+            start = False
     
     pygame.display.flip()                                           #refresh display
     clock.tick(30)                                                 #fps
