@@ -140,7 +140,6 @@ class Key():
     blackout = pygame.transform.scale(blackout, (1050,800))
     key = pygame.image.load('images/key1.png')
     key = pygame.transform.scale(key, (50, 50))
-    keyTruth = False
     blackoutcoors = [0, -10]
     
     ## Key Variables
@@ -163,6 +162,7 @@ class Key():
     key6rect = Rect(keycoors[6][0], keycoors[6][1], 50, 50)
     key7rect = Rect(keycoors[7][0], keycoors[7][1], 50, 50)
     keysrect = [key0rect, key1rect, key2rect, key3rect, key4rect, key5rect, key6rect, key7rect]
+    counterkey = [0,0,0,0,0,0,0,0]
                                 
     def toggleBox0(self):
         if not self.keys[0]:
@@ -222,29 +222,30 @@ class Key():
     def obtainKey(self, playerx, playery, currentbox):
         temp = Rect(playerx, playery, 20, 20)
         if temp.colliderect(self.keysrect[0]) == 1 and currentbox == 0:
-            self.keyTruth = True
+            player.updateK()
+            pygame.mixer.Sound.play(keySound)
             self.keys[0] = True
         if temp.colliderect(self.keysrect[1]) == 1 and currentbox == 1:
             self.keys[1] = True
-            self.keyTruth = True
+            player.updateK()
         if temp.colliderect(self.keysrect[2]) == 1 and currentbox == 2:
             self.keys[2] = True
-            self.keyTruth = True
+            player.updateK()
         if temp.colliderect(self.keysrect[3]) == 1 and currentbox == 3:
             self.keys[3] = True
-            self.keyTruth = True
+            player.updateK()
         if temp.colliderect(self.keysrect[4]) == 1 and currentbox == 4:
             self.keys[4] = True  
-            self.keyTruth = True      
+            player.updateK()      
         if temp.colliderect(self.keysrect[5]) == 1 and currentbox == 5:
             self.keys[5] = True
-            self.keyTruth = True
+            player.updateK()
         if temp.colliderect(self.keysrect[6]) == 1 and currentbox == 6:
             self.keys[6] = True
-            self.keyTruth = True
+            player.updateK()
         if temp.colliderect(self.keysrect[7]) == 1 and currentbox == 7:
             self.keys[7] = True
-            self.keyTruth = True
+            player.updateK()
 
     def keysCollected(self):
         count = 0
@@ -658,8 +659,6 @@ class Traps():
                                                                     #make sure to set the x and y 
                                                                     #update function
        
-
-
 def tile(x,y,image):
     image = pygame.image.load(image)
     image=pygame.transform.scale(image, (50, 50))
@@ -779,15 +778,16 @@ def load_box(box):                                                  #looping thr
         x = 0
     return walls,player,traps,tiles
              
-
 def displayDeaths(deaths):
         font = pygame.font.SysFont('Garamond', 35)
         text = font.render('Deaths: ' + str(deaths), True, (149, 33, 33))
         screen.blit(text, (50, -2))
     
 pygame.init()
-#backgroundsound = mixer.music.load('song1_aLtZHmr9.wav')
-#mixer.music.play(-1)
+backgroundsound = mixer.music.load('song1_aLtZHmr9.wav')
+keySound = pygame.mixer.Sound('key.wav')
+deathSound = pygame.mixer.Sound('death.wav')
+mixer.music.play(-1)
 
 clock = pygame.time.Clock()
 
@@ -958,6 +958,7 @@ died = False
 loop = True                                                         #running the game
 pause = False
 start = True
+counter = 0
 
 while loop:
 
@@ -966,13 +967,19 @@ while loop:
             if event.type == KEYUP and event.key == K_p:
                 pause = False
     if died:
-        died = False
-        deaths += 1
-        currentbox = 0
+        if counter == 0:
+            pygame.mixer.music.pause()
+            pygame.mixer.Sound.play(deathSound)
+        counter += 1
         player.updateD()
-        screen.fill(Color("black")) 
-        pygame.time.delay(100)
-        walls,player,trap,tiles=load_box(currentbox)
+        died = True
+        if counter == 9:
+            counter = 0
+            died = False
+            deaths += 1
+            currentbox = 0
+            walls,player,trap,tiles=load_box(currentbox)
+            pygame.mixer.music.unpause()
     
     screen.fill(Color("white"))                                     #making the background white
 
@@ -1242,9 +1249,6 @@ while loop:
     keys.keyCountDisplay()
 
     keys.obtainKey(player.x, player.y, currentbox)
-    if keys.keyTruth == True:
-        player.updateK()
-        keys.keyTruth = False
 
     died = player.trapped(trap) or obstacles.collide(player, currentbox)
 
