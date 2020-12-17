@@ -143,7 +143,7 @@ class Key():
     blackoutcoors = [0, -10]
     
     ## Key Variables
-    keys = [False, True, True, True, True, True, True, True]
+    keys = [False, False, False, False, False, False, False, False]
     keycoors0 = [350, 295]
     keycoors1 = [900, 400]
     keycoors2 = [300, 350]
